@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="rw">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard - Kiliziya Yacu Nziza</title>
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f1f5f9;
+            color: #172033;
+        }
+
+        /* =========================
+           LOGIN SCREEN
+        ========================== */
+
+        #authScreen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #062b63,
+                    #0b5cab
+                );
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 430px;
+            background: white;
+            border-radius: 18px;
+            padding: 35px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .login-logo .cross {
+            width: 65px;
+            height: 65px;
+            margin: auto;
+            border-radius: 50%;
+            background: #0b5cab;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .login-logo h1 {
+            margin-top: 15px;
+            color: #062b63;
+            font-size: 25px;
+        }
+
+        .login-logo p {
+            margin-top: 7px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #0b5cab;
+            box-shadow: 0 0 0 3px rgba(11, 92, 171, 0.12);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 9px;
+            background: #0b5cab;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .login-btn:hover {
+            background: #084987;
+        }
+
+        .login-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        #loginMessage {
+            margin-top: 15px;
+            padding: 11px;
+            border-radius: 8px;
+            display: none;
+            font-size: 14px;
+        }
+
+        #loginMessage.error {
+            display: block;
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        #loginMessage.success {
+            display: block;
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        /* =========================
+           ADMIN APP
+        ========================== */
+
+        #adminApp {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            height: 70px;
+            background: #062b63;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .topbar h1 {
+            font-size: 21px;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .admin-email {
+            font-size: 13px;
+            opacity: 0.9;
+        }
+
+        .logout-btn {
+            border: 1px solid rgba(255,255,255,0.4);
+            background: transparent;
+            color: white;
+            padding: 9px 15px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+            padding: 30px 20px 60px;
+        }
+
+        .welcome {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            border-left: 5px solid #0b5cab;
+        }
+
+        .welcome h2 {
+            color: #062b63;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #64748b;
+        }
+
+        /* =========================
+           STATS
+        ========================== */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 13px;
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+        }
+
+        .stat-card h3 {
+            font-size: 28px;
+            color: #0b5cab;
+        }
+
+        .stat-card p {
+            color: #64748b;
+            margin-top: 5px;
+        }
+
+        /* =========================
+           SECTIONS
+        ========================== */
+
+        .section {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+        }
+
+        .section-title {
+            color: #062b63;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .section input,
+        .section textarea,
+        .section select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .section textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .section input:focus,
+        .section textarea:focus,
+        .section select:focus {
+            outline: none;
+            border-color: #0b5cab;
+        }
+
+        .primary-btn {
+            background: #0b5cab;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .primary-btn:hover {
+            background: #084987;
+        }
+
+        .secondary-btn {
+            background: #e2e8f0;
+            color: #334155;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .danger-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 8px 13px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        .content-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .content-item {
+            border: 1px solid #e2e8f0;
+            padding: 15px;
+            border-radius: 9px;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .content-info h4 {
+            color: #062b63;
+            margin-bottom: 5px;
+        }
+
+        .content-info p {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 850px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .topbar {
+                padding: 0 15px;
+            }
+
+            .admin-email {
+                display: none;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .login-box {
+                padding: 25px 20px;
+            }
+
+            .topbar h1 {
+                font-size: 17px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =====================================================
+         LOGIN SCREEN
+    ====================================================== -->
+
+    <section id="authScreen">
+
+        <div class="login-box">
+
+            <div class="login-logo">
+
+                <div class="cross">
+                    ✝
+                </div>
+
+                <h1>Kiliziya Yacu Nziza</h1>
+
+                <p>Admin Dashboard</p>
+
+            </div>
+
+            <form id="loginForm">
+
+                <div class="form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        placeholder="Andika email ya Admin"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Andika password"
+                        required
+                    >
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="login-btn"
+                    id="loginBtn"
+                >
+                    Injira muri Admin
+                </button>
+
+                <div id="loginMessage"></div>
+
+            </form>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         ADMIN APPLICATION
+    ====================================================== -->
+
+    <section id="adminApp">
+
+        <header class="topbar">
+
+            <h1>
+                ✝ Kiliziya Yacu Nziza — Admin
+            </h1>
+
+            <div class="topbar-right">
+
+                <span
+                    class="admin-email"
+                    id="adminEmail"
+                ></span>
+
+                <button
+                    class="logout-btn"
+                    id="logoutBtn"
+                >
+                    Sohoka
+                </button>
+
+            </div>
+
+        </header>
+
+
+        <main class="container">
+
+            <!-- WELCOME -->
+
+            <div class="welcome">
+
+                <h2>
+                    Murakaza neza muri Admin Dashboard
+                </h2>
+
+                <p>
+                    Aha ni ho uzajya ucungira ibiri kuri
+                    Kiliziya Yacu Nziza.
+                </p>
+
+            </div>
+
+
+            <!-- STATS -->
+
+            <div class="stats">
+
+                <div class="stat-card">
+
+                    <h3 id="totalCount">
+                        0
+                    </h3>
+
+                    <p>
+                        Ibirimo byose
+                    </p>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <h3 id="photoCount">
+                        0
+                    </h3>
+
+                    <p>
+                        Amafoto
+                    </p>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <h3 id="pdfCount">
+                        0
+                    </h3>
+
+                    <p>
+                        PDFs / Ibitabo
+                    </p>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <h3 id="questionCount">
+                        0
+                    </h3>
+
+                    <p>
+                        Ibibazo
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- =================================================
+                 AMASOMO
+            ================================================== -->
+
+            <section class="section">
+
+                <h2 class="section-title">
+                    📖 Amasomo ya buri munsi
+                </h2>
+
+                <form id="readingForm">
+
+                    <div class="form-grid">
+
+                        <div>
+
+                            <label>
+                                Itariki
+                            </label>
+
+                            <input
+                                type="date"
+                                id="readingDate"
+                                required
+                            >
+
+                        </div>
+
+                        <div>
+
+                            <label>
+                                Isomo rya mbere
+                            </label>
+
+                            <input
+                                type="text"
+                                id="firstReading"
+                                placeholder="Urugero: 1 Kor 1,1-9"
+                                required
+                            >
+
+                        </div>
+
+                        <div>
+
+                            <label>
+                                Zaburi
+                            </label>
+
+                            <input
+                                type="text"
+                                id="psalm"
+                                placeholder="Urugero: Zab 96"
+                                required
+                            >
+
+                        </div>
+
+                        <div>
+
+                            <label>
+                                Ivanjili
+                            </label>
+
+                            <input
+                                type="text"
+                                id="gospel"
+                                placeholder="Urugero: Mt 24,42-51"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="full">
+
+                            <button
+                                type="submit"
+                                class="primary-btn"
+                            >
+                                Bika Amasomo
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- =================================================
+                 KUZIRIKANA
+            ================================================== -->
+
+            <section class="section">
+
+                <h2 class="section-title">
+                    💭 Kuzirikana
+                </h2>
+
+                <form id="reflectionForm">
+
+                    <div class="form-grid">
+
+                        <div class="full">
+
+                            <label>
+                                Umutwe
+                            </label>
+
+                            <input
+                                type="text"
+                                id="reflectionTitle"
+                                placeholder="Umutwe w'inyigisho"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="full">
+
+                            <label>
+                                Kuzirikana
+                            </label>
+
+                            <textarea
+                                id="reflectionText"
+                                placeholder="Andika kuzirikana kwawe..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+                        <div class="full">
+
+                            <label>
+                                Icyo twigiramo
+                            </label>
+
+                            <textarea
+                                id="lessonText"
+                                placeholder="Ni iki umuntu akwiye kwigira kuri iri somo?"
+                            ></textarea>
+
+                        </div>
+
+                        <div class="full">
+
+                            <button
+                                type="submit"
+                                class="primary-btn"
+                            >
+                                Bika Kuzirikana
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- =================================================
+                 IBIBAZO N'IBISUBIZO
+            ================================================== -->
+
+            <section class="section">
+
+                <h2 class="section-title">
+                    ❓ Ibibazo n'Ibisubizo
+                </h2>
+
+                <form id="questionForm">
+
+                    <div class="form-grid">
+
+                        <div class="full">
+
+                            <label>
+                                Ikibazo
+                            </label>
+
+                            <input
+                                type="text"
+                                id="question"
+                                placeholder="Andika ikibazo..."
+                                required
+                            >
+
+                        </div>
+
+                        <div class="full">
+
+                            <label>
+                                Igisubizo
+                            </label>
+
+                            <textarea
+                                id="answer"
+                                placeholder="Andika igisubizo..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+                        <div class="full">
+
+                            <button
+                                type="submit"
+                                class="primary-btn"
+                            >
+                                Bika Ikibazo
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- =================================================
+                 ISENGESHO
+            ================================================== -->
+
+            <section class="section">
+
+                <h2 class="section-title">
+                    🙏 Isengesho
+                </h2>
+
+                <form id="prayerForm">
+
+                    <div class="form-grid">
+
+                        <div>
+
+                            <label>
+                                Umutwe
+                            </label>
+
+                            <input
+                                type="text"
+                                id="prayerTitle"
+                                placeholder="Urugero: Isengesho ryo mu gitondo"
+                                required
+                            >
+
+                        </div>
+
+                        <div>
+
+                            <label>
+                                Itariki
+                            </label>
+
+                            <input
+                                type="date"
+                                id="prayerDate"
+                            >
+
+                        </div>
+
+                        <div class="full">
+
+                            <label>
+                                Isengesho
+                            </label>
+
+                            <textarea
+                                id="prayerText"
+                                placeholder="Andika isengesho..."
+                                required
+                            ></textarea>
+
+                        </div>
+
+                        <div class="full">
+
+                            <button
+                                type="submit"
+                                class="primary-btn"
+                            >
+                                Bika Isengesho
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- =================================================
+                 AMAFOTO
+            ================================================== -->
+
+            <section class="section">
+
+                <h2 class="section-title">
+                    🖼️ Amafoto
+                </h2>
+
+                <form id="photoForm">
+
+                    <div class="form-grid">
+
+                        <div>
+
+                            <label>
+                                Umutwe w'ifoto
+                            </label>
+
+                            <input
+                                type="text"
+                                id="photoTitle"
+                                placeholder="Urugero: Misa ya Kiliziya"
+                                required
+                            >
+
+                        </div>
+
+                        <div>
+
+                            <label>
+                                Ifoto
+                            </label>
+
+                            <input
+                                type="file"
+                                id="photoFile"
+                                accept="image/*"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="full">
+
+                            <label>
+                                Ibisobanuro
+                            </label>
+
+                            <textarea
+                                id="photoDescription"
+                                placeholder="Ibisobanuro by'ifoto..."
+                            ></textarea>
+
+                        </div>
+
+                        <div class="full">
+
+                            <button
+                                type="submit"
+                                class="primary-btn"
+                            >
+                                Ongeramo Ifoto
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- =================================================
+                 ISOMERO
+            ================================================== -->
+
+            <section class="section">
+
+                <h2 class="section-title">
+                    📚 Isomero — PDF n'Ibitabo
+                </h2>
+
+                <form id="libraryForm">
+
+                    <div class="form-grid">
+
+                        <div>
+
+                            <label>
+                                Umutwe
+                            </label>
+
+                            <input
+                                type="text"
+                                id="libraryTitle"
+                                placeholder="Izina rya PDF cyangwa igitabo"
+                                required
+                            >
+
+                        </div>
+
+                        <div>
+
+                            <label>
+                                Ubwoko
+                            </label>
+
+                            <select id="libraryCategory">
+
+                                <option value="PDF">
+                                    PDF
+                                </option>
+
+                                <option value="Book">
+                                    Igitabo
+                                </option>
+
+                                <option value="Psalm">
+                                    Zaburi
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div>
+
+                            <label>
+                                File
+                            </label>
+
+                            <input
+                                type="file"
+                                id="libraryFile"
+                                accept=".pdf"
+                                required
+                            >
+
+                        </div>
+
+                        <div>
+
+                            <label>
+                                Ibisobanuro
+                            </label>
+
+                            <input
+                                type="text"
+                                id="libraryDescription"
+                                placeholder="Ibisobanuro bigufi"
+                            >
+
+                        </div>
+
+                        <div class="full">
+
+                            <button
+                                type="submit"
+                                class="primary-btn"
+                            >
+                                Ongeramo muri Isomero
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- =================================================
+                 LINKS
+            ================================================== -->
+
+            <section class="section">
+
+                <h2 class="section-title">
+                    🔗 Links
+                </h2>
+
+                <form id="linkForm">
+
+                    <div class="form-grid">
+
+                        <div>
+
+                            <label>
+                                Umutwe
+                            </label>
+
+                            <input
+                                type="text"
+                                id="linkTitle"
+                                placeholder="Izina rya link"
+                                required
+                            >
+
+                        </div>
+
+                        <div>
+
+                            <label>
+                                URL
+                            </label>
+
+                            <input
+                                type="url"
+                                id="linkUrl"
+                                placeholder="https://..."
+                                required
+                            >
+
+                        </div>
+
+                        <div class="full">
+
+                            <label>
+                                Ibisobanuro
+                            </label>
+
+                            <textarea
+                                id="linkDescription"
+                                placeholder="Ibisobanuro bya link..."
+                            ></textarea>
+
+                        </div>
+
+                        <div class="full">
+
+                            <button
+                                type="submit"
+                                class="primary-btn"
+                            >
+                                Bika Link
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- =================================================
+                 AUDIO / VIDEO
+            ================================================== -->
+
+            <section class="section">
+
+                <h2 class="section-title">
+                    🎵 Audio / 🎥 Video
+                </h2>
+
+                <form id="mediaForm">
+
+                    <div class="form-grid">
+
+                        <div>
+
+                            <label>
+                                Ubwoko
+                            </label>
+
+                            <select id="mediaType">
+
+                                <option value="audio">
+                                    🎵 Audio
+                                </option>
+
+                                <option value="video">
+                                    🎥 Video
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div>
+
+                            <label>
+                                Umutwe
+                            </label>
+
+                            <input
+                                type="text"
+                                id="mediaTitle"
+                                placeholder="Umutwe"
+                                required
+                            >
+
+                        </div>
+
+                        <div class="full">
+
+                            <label>
+                                URL
+                            </label>
+
+                            <input
+                                type="url"
+                                id="mediaUrl"
+                                placeholder="https://..."
+                                required
+                            >
+
+                        </div>
+
+                        <div class="full">
+
+                            <label>
+                                Ibisobanuro
+                            </label>
+
+                            <textarea
+                                id="mediaDescription"
+                                placeholder="Ibisobanuro..."
+                            ></textarea>
+
+                        </div>
+
+                        <div class="full">
+
+                            <button
+                                type="submit"
+                                class="primary-btn"
+                            >
+                                Bika Audio / Video
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </section>
+
+
+            <!-- =================================================
+                 CONTENT LIST
+            ================================================== -->
+
+            <section class="section">
+
+                <h2 class="section-title">
+                    📂 Ibyashyizwe kuri Website
+                </h2>
+
+                <div
+                    id="contentList"
+                    class="content-list"
+                >
+                </div>
+
+            </section>
+
+        </main>
+
+    </section>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+        /* =====================================================
+           SUPABASE CONFIGURATION
+        ====================================================== */
+
+        const SUPABASE_URL =
+            "https://iqurlyrppouwcssctonu.supabase.co";
+
+        const SUPABASE_PUBLISHABLE_KEY =
+            "sb_publishable_QZVM-iXloVEDgc7fpwZhCQ_4bHRfp8d";
+
+        const supabaseClient =
+            window.supabase.createClient(
+                SUPABASE_URL,
+                SUPABASE_PUBLISHABLE_KEY
+            );
+
+
+        /* =====================================================
+           ELEMENTS
+        ====================================================== */
+
+        const authScreen =
+            document.getElementById("authScreen");
+
+        const adminApp =
+            document.getElementById("adminApp");
+
+        const loginForm =
+            document.getElementById("loginForm");
+
+        const loginBtn =
+            document.getElementById("loginBtn");
+
+        const loginMessage =
+            document.getElementById("loginMessage");
+
+        const logoutBtn =
+            document.getElementById("logoutBtn");
+
+        const adminEmail =
+            document.getElementById("adminEmail");
+
+
+        /* =====================================================
+           LOGIN MESSAGE
+        ====================================================== */
+
+        function showLoginMessage(message, type) {
+
+            loginMessage.textContent = message;
+
+            loginMessage.className = "";
+
+            loginMessage.classList.add(type);
+
+        }
+
+
+        /* =====================================================
+           SHOW ADMIN
+        ====================================================== */
+
+        function showAdmin(session) {
+
+            authScreen.style.display = "none";
+
+            adminApp.style.display = "block";
+
+            if (session && session.user) {
+
+                adminEmail.textContent =
+                    session.user.email || "";
+
+            }
+
+        }
+
+
+        /* =====================================================
+           SHOW LOGIN
+        ====================================================== */
+
+        function showLogin() {
+
+            authScreen.style.display = "flex";
+
+            adminApp.style.display = "none";
+
+            adminEmail.textContent = "";
+
+        }
+
+
+        /* =====================================================
+           CHECK CURRENT SESSION
+        ====================================================== */
+
+        async function checkSession() {
+
+            const {
+                data,
+                error
+            } =
+                await supabaseClient.auth.getSession();
+
+            if (error) {
+
+                console.error(
+                    "Session error:",
+                    error
+                );
+
+                showLogin();
+
+                return;
+
+            }
+
+            if (data.session) {
+
+                showAdmin(
+                    data.session
+                );
+
+            } else {
+
+                showLogin();
+
+            }
+
+        }
+
+
+        /* =====================================================
+           LOGIN
+        ====================================================== */
+
+        loginForm.addEventListener(
+            "submit",
+            async function(event) {
+
+                event.preventDefault();
+
+                const email =
+                    document
+                        .getElementById("email")
+                        .value
+                        .trim();
+
+                const password =
+                    document
+                        .getElementById("password")
+                        .value;
+
+                loginBtn.disabled = true;
+
+                loginBtn.textContent =
+                    "Turimo kwinjiza...";
+
+                loginMessage.style.display =
+                    "none";
+
+                const {
+                    data,
+                    error
+                } =
+                    await supabaseClient.auth
+                        .signInWithPassword({
+                            email: email,
+                            password: password
+                        });
+
+                if (error) {
+
+                    console.error(
+                        "Login error:",
+                        error
+                    );
+
+                    showLoginMessage(
+                        "Email cyangwa password ntabwo ari byo. Ongera ugerageze.",
+                        "error"
+                    );
+
+                    loginBtn.disabled = false;
+
+                    loginBtn.textContent =
+                        "Injira muri Admin";
+
+                    return;
+
+                }
+
+                showLoginMessage(
+                    "Winjiye neza.",
+                    "success"
+                );
+
+                setTimeout(
+                    function() {
+
+                        showAdmin(data.session);
+
+                    },
+                    500
+                );
+
+                loginBtn.disabled = false;
+
+                loginBtn.textContent =
+                    "Injira muri Admin";
+
+            }
+        );
+
+
+        /* =====================================================
+           LOGOUT
+        ====================================================== */
+
+        logoutBtn.addEventListener(
+            "click",
+            async function() {
+
+                logoutBtn.disabled = true;
+
+                logoutBtn.textContent =
+                    "Turimo gusohoka...";
+
+                const {
+                    error
+                } =
+                    await supabaseClient.auth
+                        .signOut();
+
+                if (error) {
+
+                    console.error(
+                        "Logout error:",
+                        error
+                    );
+
+                    alert(
+                        "Habaye ikibazo mu gusohoka."
+                    );
+
+                    logoutBtn.disabled = false;
+
+                    logoutBtn.textContent =
+                        "Sohoka";
+
+                    return;
+
+                }
+
+                showLogin();
+
+                loginForm.reset();
+
+                loginMessage.style.display =
+                    "none";
+
+                logoutBtn.disabled = false;
+
+                logoutBtn.textContent =
+                    "Sohoka";
+
+            }
+        );
+
+
+        /* =====================================================
+           AUTH STATE CHANGES
+        ====================================================== */
+
+        supabaseClient.auth.onAuthStateChange(
+            function(event, session) {
+
+                if (session) {
+
+                    showAdmin(session);
+
+                } else {
+
+                    showLogin();
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           TEMPORARY LOCAL CONTENT
+           
+           IBI TURACYABISIGIRA HANO KUGEZA TUGEZE
+           KURI STEP IKURIKIRA YA SUPABASE DATABASE.
+        ====================================================== */
+
+        const STORAGE_KEY =
+            "kiliziyaContents";
+
+        let contents = [];
+
+        try {
+
+            contents =
+                JSON.parse(
+                    localStorage.getItem(
+                        STORAGE_KEY
+                    )
+                ) || [];
+
+        } catch (error) {
+
+            contents = [];
+
+        }
+
+
+        /* =====================================================
+           DISPLAY STATS
+        ====================================================== */
+
+        function updateStats() {
+
+            const total =
+                contents.length;
+
+            const photos =
+                contents.filter(
+                    item =>
+                        item.type === "photo"
+                ).length;
+
+            const pdfs =
+                contents.filter(
+                    item =>
+                        item.type === "library"
+                ).length;
+
+            const questions =
+                contents.filter(
+                    item =>
+                        item.type === "question"
+                ).length;
+
+            document.getElementById(
+                "totalCount"
+            ).textContent = total;
+
+            document.getElementById(
+                "photoCount"
+            ).textContent = photos;
+
+            document.getElementById(
+                "pdfCount"
+            ).textContent = pdfs;
+
+            document.getElementById(
+                "questionCount"
+            ).textContent = questions;
+
+        }
+
+
+        /* =====================================================
+           DISPLAY CONTENT
+        ====================================================== */
+
+        function displayContents() {
+
+            const list =
+                document.getElementById(
+                    "contentList"
+                );
+
+            if (!contents.length) {
+
+                list.innerHTML = `
+                    <div class="empty">
+                        Nta kintu kirashyirwamo.
+                    </div>
+                `;
+
+                updateStats();
+
+                return;
+
+            }
+
+            list.innerHTML =
+                contents
+                    .slice()
+                    .reverse()
+                    .map(
+                        function(item) {
+
+                            return `
+                                <div class="content-item">
+
+                                    <div class="content-info">
+
+                                        <h4>
+                                            ${escapeHtml(
+                                                item.title ||
+                                                item.name ||
+                                                "Nta mutwe"
+                                            )}
+                                        </h4>
+
+                                        <p>
+                                            Ubwoko:
+                                            ${escapeHtml(
+                                                item.type ||
+                                                "Unknown"
+                                            )}
+                                        </p>
+
+                                    </div>
+
+                                    <button
+                                        class="danger-btn"
+                                        onclick="deleteLocalContent('${item.id}')"
+                                    >
+                                        Siba
+                                    </button>
+
+                                </div>
+                            `;
+
+                        }
+                    )
+                    .join("");
+
+            updateStats();
+
+        }
+
+
+        /* =====================================================
+           ESCAPE HTML
+        ====================================================== */
+
+        function escapeHtml(value) {
+
+            return String(value)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+
+        }
+
+
+        /* =====================================================
+           DELETE TEMPORARY LOCAL CONTENT
+        ====================================================== */
+
+        window.deleteLocalContent =
+            function(id) {
+
+                const confirmed =
+                    confirm(
+                        "Urashaka koko gusiba iki kintu?"
+                    );
+
+                if (!confirmed) {
+                    return;
+                }
+
+                contents =
+                    contents.filter(
+                        item =>
+                            String(item.id) !==
+                            String(id)
+                    );
+
+                localStorage.setItem(
+                    STORAGE_KEY,
+                    JSON.stringify(contents)
+                );
+
+                displayContents();
+
+            };
+
+
+        /* =====================================================
+           FORM PLACEHOLDER HANDLERS
+           
+           KURI IYI STEP NTIRAJYA MURI SUPABASE.
+           TURAZIHINDURA MU STEP IKURIKIRA.
+        ====================================================== */
+
+        document
+            .getElementById("readingForm")
+            .addEventListener(
+                "submit",
+                function(event) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Amasomo turayashyira muri Supabase muri STEP ikurikira."
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById("reflectionForm")
+            .addEventListener(
+                "submit",
+                function(event) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Kuzirikana turabishyira muri Supabase muri STEP ikurikira."
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById("questionForm")
+            .addEventListener(
+                "submit",
+                function(event) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Ibibazo turabishyira muri Supabase muri STEP ikurikira."
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById("prayerForm")
+            .addEventListener(
+                "submit",
+                function(event) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Amasengesho turayashyira muri Supabase muri STEP ikurikira."
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById("photoForm")
+            .addEventListener(
+                "submit",
+                function(event) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Amafoto tuzayashyira muri Supabase Storage muri STEP ikurikira."
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById("libraryForm")
+            .addEventListener(
+                "submit",
+                function(event) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "PDF n'ibitabo tuzabishyira muri Supabase Storage muri STEP ikurikira."
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById("linkForm")
+            .addEventListener(
+                "submit",
+                function(event) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Links tuzazibika muri Supabase muri STEP ikurikira."
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById("mediaForm")
+            .addEventListener(
+                "submit",
+                function(event) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Audio na Video tuzabishyira muri Supabase muri STEP ikurikira."
+                    );
+
+                }
+            );
+
+
+        /* =====================================================
+           INITIALIZE
+        ====================================================== */
+
+        displayContents();
+
+        checkSession();
+
+    </script>
+
+</body>
+</html>
