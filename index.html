@@ -1,89 +1,147 @@
 <!DOCTYPE html>
 <html lang="rw">
+
 <head>
+
     <meta charset="UTF-8">
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- GOOGLE SEARCH CONSOLE -->
     <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
+        name="google-site-verification"
+        content="sQz4d2TEB2Gx7iLy-uRA97cOYCfDYohslaao66sTdhs"
     >
 
-    <title>Kiliziya Yacu Nziza | Kuzirikana Ijambo ry'Imana</title>
-
+    <!-- SEO -->
     <meta
         name="description"
-        content="Kiliziya Yacu Nziza ni urubuga rw'Abakristu rwo kuzirikana Ijambo ry'Imana, amasomo ya buri munsi, inyigisho, amasengesho, amafoto n'isomero."
+        content="Kiliziya Yacu Nziza — urubuga rwa Kiliziya rutanga kuzirikana amasomo ya buri munsi, inyigisho, amasengesho, amafoto n'isomero."
     >
 
     <meta
         name="keywords"
-        content="Kiliziya Yacu Nziza, Kiliziya Gatolika, Yezu Kristu, amasomo ya buri munsi, kuzirikana, isengesho, Abatagatifu, Rwanda"
+        content="Kiliziya Yacu Nziza, Kiliziya, Yezu Kristu, amasomo ya buri munsi, kuzirikana, isengesho, Abatagatifu, Rwanda, Catholic"
     >
 
-    <meta name="author" content="Kiliziya Yacu Nziza">
-
     <meta
-        property="og:title"
+        name="author"
         content="Kiliziya Yacu Nziza"
     >
 
     <meta
-        property="og:description"
-        content="Kuzirikana Ijambo ry'Imana no kurishyira mu buzima bwa buri munsi."
+        name="robots"
+        content="index, follow"
     >
 
+    <meta
+        name="googlebot"
+        content="index, follow"
+    >
+
+    <!-- CANONICAL HTTPS -->
+    <link
+        rel="canonical"
+        href="https://kiliziya-yacu-nziza.netlify.app/"
+    >
+
+    <!-- OPEN GRAPH -->
     <meta
         property="og:type"
         content="website"
     >
 
+    <meta
+        property="og:title"
+        content="Kiliziya Yacu Nziza | Yezu Kristu ni we Rumuri rwacu"
+    >
+
+    <meta
+        property="og:description"
+        content="Twige, tuzirikane kandi tube hafi ya Yezu Kristu."
+    >
+
+    <meta
+        property="og:url"
+        content="https://kiliziya-yacu-nziza.netlify.app/"
+    >
+
+    <meta
+        property="og:image"
+        content="https://kiliziya-yacu-nziza.netlify.app/images/hero-church.jpg"
+    >
+
+    <meta
+        property="og:site_name"
+        content="Kiliziya Yacu Nziza"
+    >
+
+    <!-- TWITTER / X -->
+    <meta
+        name="twitter:card"
+        content="summary_large_image"
+    >
+
+    <meta
+        name="twitter:title"
+        content="Kiliziya Yacu Nziza"
+    >
+
+    <meta
+        name="twitter:description"
+        content="Yezu Kristu ni we Rumuri rwacu."
+    >
+
+    <meta
+        name="twitter:image"
+        content="https://kiliziya-yacu-nziza.netlify.app/images/hero-church.jpg"
+    >
+
+    <title>
+        Kiliziya Yacu Nziza | Yezu Kristu ni we Rumuri rwacu
+    </title>
+
+    <!-- CSS -->
     <link
         rel="stylesheet"
-        href="style.css"
+        href="https://kiliziya-yacu-nziza.netlify.app/style.css"
     >
+
 </head>
 
 <body>
 
-    <!-- ==================================================
-         TOP BAR
-    =================================================== -->
+    <!-- TOP BAR -->
+    <div class="topbar">
 
-    <div class="top-bar">
-        <div class="container top-bar-inner">
+        <div class="container topbar-inner">
 
             <p>
-                <span class="top-bar-icon">✦</span>
                 Yezu Kristu ni we rumuri rwacu
             </p>
 
-            <p id="currentDate">
-                Uyu munsi
-            </p>
+            <span id="currentDate"></span>
 
         </div>
+
     </div>
 
 
-    <!-- ==================================================
-         HEADER
-    =================================================== -->
-
+    <!-- HEADER -->
     <header class="site-header">
 
         <div class="container header-inner">
 
             <a
-                href="#ahabanza"
+                href="https://kiliziya-yacu-nziza.netlify.app/"
                 class="brand"
-                aria-label="Kiliziya Yacu Nziza"
             >
 
-                <div class="brand-symbol">
-                    <span>✝</span>
-                </div>
+                <span class="brand-mark">
+                    ✝
+                </span>
 
-                <div class="brand-text">
+                <span class="brand-text">
 
                     <strong>
                         Kiliziya Yacu Nziza
@@ -93,7 +151,7 @@
                         Mu nzira ya Yezu Kristu
                     </small>
 
-                </div>
+                </span>
 
             </a>
 
@@ -103,6 +161,7 @@
                 id="menuToggle"
                 type="button"
                 aria-label="Fungura menu"
+                aria-expanded="false"
             >
                 ☰
             </button>
@@ -111,47 +170,42 @@
             <nav
                 class="main-nav"
                 id="mainNav"
-                aria-label="Menu nyamukuru"
             >
 
-                <a
-                    href="#ahabanza"
-                    class="active"
-                >
+                <a href="https://kiliziya-yacu-nziza.netlify.app/#ahabanza">
                     Ahabanza
                 </a>
 
-                <a href="#amasomo">
+                <a href="https://kiliziya-yacu-nziza.netlify.app/#amasomo">
                     Amasomo
                 </a>
 
-                <a href="#kuzirikana">
+                <a href="https://kiliziya-yacu-nziza.netlify.app/#kuzirikana">
                     Kuzirikana
                 </a>
 
-                <a href="#isomero">
+                <a href="https://kiliziya-yacu-nziza.netlify.app/#isomero">
                     Isomero
                 </a>
 
-                <a href="#amafoto">
+                <a href="https://kiliziya-yacu-nziza.netlify.app/#amafoto">
                     Amafoto
                 </a>
 
-                <a href="#isengesho">
+                <a href="https://kiliziya-yacu-nziza.netlify.app/#isengesho">
                     Isengesho
                 </a>
 
                 <button
-                    type="button"
-                    class="nav-search"
+                    class="search-button"
                     id="openSearch"
-                    aria-label="Shakisha"
+                    type="button"
                 >
-                    <span>⌕</span>
+                    Shakisha
                 </button>
 
                 <a
-                    href="admin.html"
+                    href="https://kiliziya-yacu-nziza.netlify.app/admin.html"
                     class="nav-admin"
                 >
                     Admin
@@ -164,34 +218,31 @@
     </header>
 
 
-    <!-- ==================================================
-         SEARCH OVERLAY
-    =================================================== -->
-
+    <!-- SEARCH OVERLAY -->
     <div
         class="search-overlay"
         id="searchOverlay"
-        aria-hidden="true"
     >
 
         <div class="search-box">
 
             <button
-                type="button"
                 class="search-close"
                 id="closeSearch"
-                aria-label="Funga ubushakashatsi"
+                type="button"
+                aria-label="Funga search"
             >
                 ×
             </button>
 
-            <span class="search-label">
-                SHAKISHA
-            </span>
-
             <h2>
-                Ni iki ushaka kubona?
+                Shakisha kuri Kiliziya Yacu Nziza
             </h2>
+
+            <p>
+                Shakisha amasomo, kuzirikana, isengesho,
+                isomero cyangwa amafoto.
+            </p>
 
             <div class="search-form">
 
@@ -205,16 +256,17 @@
                 <button
                     type="button"
                     id="searchSubmit"
+                    class="btn btn-primary"
                 >
                     Shakisha
                 </button>
 
             </div>
 
-            <p
+            <div
                 id="searchMessage"
                 class="search-message"
-            ></p>
+            ></div>
 
         </div>
 
@@ -224,124 +276,76 @@
     <main>
 
 
-        <!-- ==================================================
-             HERO
-        =================================================== -->
-
+        <!-- HERO -->
         <section
             class="hero"
             id="ahabanza"
         >
 
-            <div class="hero-image"></div>
-
-            <div class="hero-overlay"></div>
-
             <div class="container hero-content">
 
                 <div class="hero-copy">
 
-                    <span class="eyebrow hero-eyebrow">
-                        URUBUGA RW'ABAKRISTU
+                    <span class="eyebrow">
+                        KILIZIYA YACU NZIZA
                     </span>
 
                     <h1>
-                        Ijambo ry'Imana
-                        <br>
-                        <span>rigire ubuzima muri twe.</span>
+                        Twige, tuzirikane kandi tube hafi ya Yezu Kristu.
                     </h1>
 
                     <p class="hero-text">
-                        Kiliziya Yacu Nziza ni ahantu ho
-                        kuzirikana amasomo ya buri munsi,
-                        gusangira ukwemera, kwiga,
-                        gusenga no gukura mu rukundo rwa
-                        Yezu Kristu.
+                        Urubuga rugufasha kuzirikana amasomo ya buri munsi,
+                        kwiga inyigisho za Kiliziya, gusenga no gukomeza ukwemera.
                     </p>
 
                     <div class="hero-actions">
 
                         <a
-                            href="#kuzirikana"
+                            href="https://kiliziya-yacu-nziza.netlify.app/#amasomo"
                             class="btn btn-primary"
-                        >
-                            Tangira Kuzirikana
-                            <span>→</span>
-                        </a>
-
-                        <a
-                            href="#amasomo"
-                            class="btn btn-light"
                         >
                             Amasomo y'uyu munsi
                         </a>
 
-                    </div>
-
-                    <div class="hero-note">
-
-                        <span class="hero-note-line"></span>
-
-                        <span>
-                            “Ijambo ryawe ni urumuri
-                            rw'amaguru yanjye.”
-                        </span>
+                        <a
+                            href="https://kiliziya-yacu-nziza.netlify.app/#kuzirikana"
+                            class="btn btn-secondary"
+                        >
+                            Tangira kuzirikana
+                        </a>
 
                     </div>
 
                 </div>
 
 
-                <div class="hero-card">
+                <div class="hero-date-card">
 
-                    <div class="hero-card-top">
+                    <span class="hero-date-label">
+                        Uyu munsi
+                    </span>
 
-                        <span>
-                            UYU MUNSI
-                        </span>
+                    <strong id="heroDay">
+                        --
+                    </strong>
 
-                        <span class="hero-card-dot"></span>
+                    <span id="heroMonth">
+                        ---
+                    </span>
 
-                    </div>
-
-                    <div class="hero-card-date">
-                        <span id="heroDay">--</span>
-                        <div>
-                            <strong id="heroMonth">
-                                ---
-                            </strong>
-                            <small id="heroYear">
-                                ----
-                            </small>
-                        </div>
-                    </div>
-
-                    <div class="hero-card-divider"></div>
-
-                    <p>
-                        Fata akanya gato uyu munsi
-                        wumve icyo Ijambo ry'Imana
-                        riguhamagarira.
-                    </p>
-
-                    <a href="#kuzirikana">
-                        Reba kuzirikana
-                        <span>↗</span>
-                    </a>
+                    <span id="heroYear">
+                        ----
+                    </span>
 
                 </div>
 
             </div>
 
-            <div class="hero-bottom-shape"></div>
-
         </section>
 
 
-        <!-- ==================================================
-             INTRO / VALUES
-        =================================================== -->
-
+        <!-- INTRO -->
         <section class="intro-section">
 
             <div class="container">
@@ -349,19 +353,17 @@
                 <div class="section-heading centered">
 
                     <span class="eyebrow">
-                        KILIZIYA YACU NZIZA
+                        DUHURIRE KU IJAMBO R'IMANA
                     </span>
 
                     <h2>
-                        Ahantu ho guhura
-                        n'Ijambo ry'Imana
+                        Ahantu ho kwiga no kuzirikana
                     </h2>
 
                     <p>
-                        Si ugusoma gusa. Ni ugufata
-                        umwanya wo kumva, kuzirikana,
-                        kubaza no gushyira mu bikorwa
-                        ibyo Imana itubwira.
+                        Kiliziya Yacu Nziza igamije gufasha abakristu
+                        kwegera Imana binyuze mu Ijambo ryayo,
+                        kuzirikana no gusenga.
                     </p>
 
                 </div>
@@ -371,45 +373,17 @@
 
                     <article class="value-card">
 
-                        <div class="value-number">
+                        <div class="value-icon">
                             01
                         </div>
 
-                        <div class="value-icon">
-                            ✦
-                        </div>
-
                         <h3>
-                            Kuzirikana
+                            Amasomo
                         </h3>
 
                         <p>
-                            Dufata ubutumwa bw'amasomo
-                            tukareba icyo butubwira
-                            mu buzima bwacu.
-                        </p>
-
-                    </article>
-
-
-                    <article class="value-card featured">
-
-                        <div class="value-number">
-                            02
-                        </div>
-
-                        <div class="value-icon">
-                            ◇
-                        </div>
-
-                        <h3>
-                            Kwiga
-                        </h3>
-
-                        <p>
-                            Inyigisho n'ibibazo bidufasha
-                            gusobanukirwa neza ukwemera
-                            kwacu.
+                            Menya amasomo y'ingenzi yo ku munsi
+                            kandi uyatekerezeho.
                         </p>
 
                     </article>
@@ -417,12 +391,26 @@
 
                     <article class="value-card">
 
-                        <div class="value-number">
-                            03
+                        <div class="value-icon">
+                            02
                         </div>
 
+                        <h3>
+                            Kuzirikana
+                        </h3>
+
+                        <p>
+                            Fata akanya wo gusobanukirwa ubutumwa
+                            bw'Ijambo ry'Imana.
+                        </p>
+
+                    </article>
+
+
+                    <article class="value-card">
+
                         <div class="value-icon">
-                            ♡
+                            03
                         </div>
 
                         <h3>
@@ -430,9 +418,8 @@
                         </h3>
 
                         <p>
-                            Turangiza igihe cyacu
-                            dushyira ibyo twazirikanye
-                            mu isengesho.
+                            Soza kuzirikana kwawe ushyira ubuzima bwawe
+                            mu maboko y'Imana.
                         </p>
 
                     </article>
@@ -444,42 +431,27 @@
         </section>
 
 
-        <!-- ==================================================
-             DAILY READINGS
-        =================================================== -->
-
+        <!-- DAILY READINGS -->
         <section
-            class="readings-section"
+            class="section section-light"
             id="amasomo"
         >
 
             <div class="container">
 
-                <div class="section-heading section-heading-row">
+                <div class="section-heading">
 
-                    <div>
+                    <span class="eyebrow">
+                        IJAMBO R'IMANA
+                    </span>
 
-                        <span class="eyebrow">
-                            IJAMBO RY'UYU MUNSI
-                        </span>
+                    <h2>
+                        Amasomo ya buri munsi
+                    </h2>
 
-                        <h2>
-                            Amasomo ya buri munsi
-                        </h2>
-
-                    </div>
-
-                    <div class="section-date">
-
-                        <span class="date-icon">
-                            ◷
-                        </span>
-
-                        <span id="readingDate">
-                            Uyu munsi
-                        </span>
-
-                    </div>
+                    <p id="readingDate">
+                        Amasomo y'uyu munsi
+                    </p>
 
                 </div>
 
@@ -488,102 +460,39 @@
 
                     <article class="reading-card">
 
-                        <div class="reading-card-header">
-
-                            <span class="reading-index">
-                                01
-                            </span>
-
-                            <span class="reading-type">
-                                ISOMO RYA MBERE
-                            </span>
-
-                        </div>
-
-                        <h3>
+                        <span class="reading-label">
                             Isomo rya mbere
-                        </h3>
+                        </span>
 
-                        <p
-                            id="firstReading"
-                            class="reading-reference"
-                        >
-                            Reference y'isomo rya mbere
-                            izashyirwa hano.
+                        <p id="firstReading">
+                            Amasomo arimo gutegurwa...
                         </p>
-
-                        <a href="#kuzirikana">
-                            Kuzirikana
-                            <span>→</span>
-                        </a>
-
-                    </article>
-
-
-                    <article class="reading-card reading-card-dark">
-
-                        <div class="reading-card-header">
-
-                            <span class="reading-index">
-                                02
-                            </span>
-
-                            <span class="reading-type">
-                                ZABURI
-                            </span>
-
-                        </div>
-
-                        <h3>
-                            Zaburi
-                        </h3>
-
-                        <p
-                            id="psalm"
-                            class="reading-reference"
-                        >
-                            Zaburi y'umunsi
-                            izashyirwa hano.
-                        </p>
-
-                        <a href="#kuzirikana">
-                            Kuzirikana
-                            <span>→</span>
-                        </a>
 
                     </article>
 
 
                     <article class="reading-card">
 
-                        <div class="reading-card-header">
+                        <span class="reading-label">
+                            Zaburi
+                        </span>
 
-                            <span class="reading-index">
-                                03
-                            </span>
-
-                            <span class="reading-type">
-                                IVANJILI
-                            </span>
-
-                        </div>
-
-                        <h3>
-                            Ivanjili
-                        </h3>
-
-                        <p
-                            id="gospel"
-                            class="reading-reference"
-                        >
-                            Reference y'Ivijanjili
-                            izashyirwa hano.
+                        <p id="psalm">
+                            Zaburi irimo gutegurwa...
                         </p>
 
-                        <a href="#kuzirikana">
-                            Kuzirikana
-                            <span>→</span>
-                        </a>
+                    </article>
+
+
+                    <article class="reading-card reading-card-featured">
+
+                        <span class="reading-label">
+                            Ivanjili
+                        </span>
+
+                        <p id="gospel">
+                            Ivanjili irimo gutegurwa...
+                        </p>
 
                     </article>
 
@@ -594,12 +503,9 @@
         </section>
 
 
-        <!-- ==================================================
-             REFLECTION
-        =================================================== -->
-
+        <!-- REFLECTION -->
         <section
-            class="reflection-section"
+            class="section reflection-section"
             id="kuzirikana"
         >
 
@@ -612,74 +518,35 @@
                     </span>
 
                     <h2>
-                        Ijambo
-                        <span>ritubwire iki?</span>
+                        Ni iki Ijambo ry'Imana ritubwira uyu munsi?
                     </h2>
 
                     <p>
-                        Amasomo ntabwo agenewe
-                        gusomwa gusa. Araduhamagara
-                        ngo turebe ubuzima bwacu
-                        mu mucyo w'Imana.
+                        Ntitugomba gusoma gusa; tugomba no gufata akanya
+                        ko gutekereza ku cyo Imana itubwira no ku cyo
+                        twakora mu buzima bwa buri munsi.
                     </p>
-
-                    <div class="reflection-quote">
-
-                        <span class="quote-mark">
-                            “
-                        </span>
-
-                        <p>
-                            Fata akanya. Soma buhoro.
-                            Tekereza ku cyo Yezu
-                            akubwira uyu munsi.
-                        </p>
-
-                    </div>
 
                 </div>
 
 
-                <article class="reflection-content">
+                <article class="reflection-card">
 
-                    <div class="reflection-top">
-
-                        <span>
-                            KUZIRIKANA KW'UYU MUNSI
-                        </span>
-
-                        <span class="reflection-symbol">
-                            ✦
-                        </span>
-
-                    </div>
+                    <span class="reflection-mark">
+                        “
+                    </span>
 
                     <h3>
-                        Imana idusaba iki
-                        muri uyu munsi?
+                        Fata akanya wumve icyo Imana ikubwira.
                     </h3>
 
                     <p>
-                        Aha ni ho tuzajya dushyira
-                        kuzirikana kw'umunsi. Tuzareba
-                        ubutumwa bw'ingenzi buri mu
-                        masomo, icyo butwigisha ndetse
-                        n'uko twabushyira mu bikorwa
-                        mu buzima bwa buri munsi.
+                        Tekereza ku isomo, ku Ivanjili n'uko ubutumwa
+                        bwabyo bushobora guhindura uburyo ubaho,
+                        ukunda abandi kandi ugirira Imana icyizere.
                     </p>
 
-                    <div class="reflection-action">
-
-                        <span>
-                            IGIKORWA CY'UYU MUNSI
-                        </span>
-
-                        <strong>
-                            Hitamo igikorwa kimwe
-                            cy'urukundo ukore uyu munsi.
-                        </strong>
-
-                    </div>
+                    <span class="reflection-line"></span>
 
                 </article>
 
@@ -688,96 +555,81 @@
         </section>
 
 
-        <!-- ==================================================
-             LESSON / QUESTION
-        =================================================== -->
-
-        <section class="lesson-section">
+        <!-- QUESTION -->
+        <section class="section section-light">
 
             <div class="container">
 
-                <div class="lesson-grid">
+                <div class="section-heading centered">
 
-                    <div class="lesson-card">
+                    <span class="eyebrow">
+                        TWIGIRE HAMWE
+                    </span>
 
-                        <span class="eyebrow">
-                            ICYO TWIGIRAMO
-                        </span>
+                    <h2>
+                        Ikibazo cyo kuzirikana
+                    </h2>
 
-                        <h2>
-                            Ukwemera
-                            <span>kubaho mu bikorwa.</span>
-                        </h2>
+                    <p>
+                        Hitamo igisubizo utekereza ko gihuye n'ubutumwa
+                        bwo kuzirikana.
+                    </p>
 
-                        <p>
-                            Ubumenyi bwiza bw'ukwemera
-                            burushaho kugira agaciro iyo
-                            buhindutse ubuzima: urukundo,
-                            imbabazi, ubudahemuka,
-                            kwihangana no gufasha abandi.
-                        </p>
+                </div>
 
-                        <a
-                            href="#isengesho"
-                            class="text-link"
+
+                <div class="question-card">
+
+                    <h3>
+                        Ni iki cy'ingenzi tugomba gukora nyuma yo kumva
+                        Ijambo ry'Imana?
+                    </h3>
+
+
+                    <div class="answer-options">
+
+                        <button
+                            class="answer-option"
+                            data-answer="A"
+                            type="button"
                         >
-                            Komeza ujye mu isengesho
-                            <span>→</span>
-                        </a>
+                            A. Kurireba gusa tukaryibagirwa
+                        </button>
+
+
+                        <button
+                            class="answer-option"
+                            data-answer="B"
+                            type="button"
+                        >
+                            B. Kurisoma rimwe gusa
+                        </button>
+
+
+                        <button
+                            class="answer-option"
+                            data-answer="C"
+                            type="button"
+                        >
+                            C. Kuriganiraho gusa
+                        </button>
+
+
+                        <button
+                            class="answer-option"
+                            data-answer="D"
+                            type="button"
+                        >
+                            D. Kurishyira mu bikorwa mu buzima
+                        </button>
 
                     </div>
 
 
-                    <div class="question-card">
-
-                        <div class="question-number">
-                            IKIBAZO
-                        </div>
-
-                        <h3>
-                            Ni iki ushobora guhindura
-                            uyu munsi kubera Ijambo
-                            ry'Imana?
-                        </h3>
-
-                        <div class="answer-list">
-
-                            <button
-                                type="button"
-                                class="answer-option"
-                            >
-                                A. Nta kintu na kimwe
-                            </button>
-
-                            <button
-                                type="button"
-                                class="answer-option"
-                            >
-                                B. Gusa gusoma
-                            </button>
-
-                            <button
-                                type="button"
-                                class="answer-option"
-                            >
-                                C. Gutegereza undi muntu
-                            </button>
-
-                            <button
-                                type="button"
-                                class="answer-option"
-                            >
-                                D. Gushyira ubutumwa mu bikorwa
-                            </button>
-
-                        </div>
-
-                        <p
-                            id="answerResult"
-                            class="answer-result"
-                        ></p>
-
-                    </div>
+                    <div
+                        id="answerResult"
+                        class="answer-result"
+                    ></div>
 
                 </div>
 
@@ -786,45 +638,28 @@
         </section>
 
 
-        <!-- ==================================================
-             LIBRARY
-        =================================================== -->
-
+        <!-- LIBRARY -->
         <section
-            class="library-section"
+            class="section"
             id="isomero"
         >
 
             <div class="container">
 
-                <div class="section-heading section-heading-row">
+                <div class="section-heading">
 
-                    <div>
+                    <span class="eyebrow">
+                        ISOMERO
+                    </span>
 
-                        <span class="eyebrow">
-                            ISOMERO
-                        </span>
+                    <h2>
+                        Ibitabo, PDF n'inyandiko
+                    </h2>
 
-                        <h2>
-                            Ibikoresho byo gukura
-                            mu kwemera
-                        </h2>
-
-                        <p>
-                            Zaburi, ibitabo, inyigisho
-                            n'izindi nyandiko tuzagenda
-                            dushyira hano.
-                        </p>
-
-                    </div>
-
-                    <a
-                        href="#isomero"
-                        class="outline-link"
-                    >
-                        Reba byose
-                        <span>→</span>
-                    </a>
+                    <p>
+                        Aha hazajya haboneka ibikoresho byagufasha
+                        mu myigire no mu kuzirikana.
+                    </p>
 
                 </div>
 
@@ -834,25 +669,23 @@
                     class="resource-grid"
                 >
 
-                    <article class="resource-placeholder">
+                    <article class="resource-card">
 
                         <div class="resource-icon">
                             PDF
                         </div>
 
                         <div>
-                            <span>
-                                ISOMERO
-                            </span>
 
                             <h3>
-                                Ibikoresho bizagaragara hano
+                                Isomero rirategurwa
                             </h3>
 
                             <p>
-                                Admin azajya yongeramo
-                                PDFs n'ibitabo.
+                                PDF n'ibitabo bizajya byongerwa hano
+                                binyuze muri Admin Dashboard.
                             </p>
+
                         </div>
 
                     </article>
@@ -864,32 +697,27 @@
         </section>
 
 
-        <!-- ==================================================
-             PHOTOS
-        =================================================== -->
-
+        <!-- PHOTOS -->
         <section
-            class="photos-section"
+            class="section section-light"
             id="amafoto"
         >
 
             <div class="container">
 
-                <div class="section-heading centered">
+                <div class="section-heading">
 
                     <span class="eyebrow">
                         AMAFOTO
                     </span>
 
                     <h2>
-                        Ubuzima bw'umuryango
-                        wacu
+                        Ubuzima bwa Kiliziya
                     </h2>
 
                     <p>
-                        Amafoto y'ibikorwa,
-                        iminsi mikuru, amakoraniro
-                        n'ubuzima bwa Kiliziya.
+                        Amafoto y'ibikorwa n'umuryango wa Kiliziya
+                        azajya aboneka hano.
                     </p>
 
                 </div>
@@ -900,29 +728,17 @@
                     class="photo-grid"
                 >
 
-                    <div class="photo-placeholder large">
-                        <span>
-                            AMAFOTO
-                        </span>
-                    </div>
+                    <article class="photo-placeholder">
+                        <span>Amafoto</span>
+                    </article>
 
-                    <div class="photo-placeholder">
-                        <span>
-                            KILIZIYA
-                        </span>
-                    </div>
+                    <article class="photo-placeholder">
+                        <span>Amafoto</span>
+                    </article>
 
-                    <div class="photo-placeholder">
-                        <span>
-                            UMURYANGO
-                        </span>
-                    </div>
-
-                    <div class="photo-placeholder">
-                        <span>
-                            UKWEMERA
-                        </span>
-                    </div>
+                    <article class="photo-placeholder">
+                        <span>Amafoto</span>
+                    </article>
 
                 </div>
 
@@ -931,119 +747,98 @@
         </section>
 
 
-        <!-- ==================================================
-             PRAYER
-        =================================================== -->
-
+        <!-- PRAYER -->
         <section
-            class="prayer-section"
+            class="section prayer-section"
             id="isengesho"
         >
 
-            <div class="prayer-glow"></div>
+            <div class="container">
 
-            <div class="container prayer-content">
+                <div class="prayer-card">
 
-                <span class="prayer-cross">
-                    ✝
-                </span>
+                    <span class="eyebrow">
+                        ISENGESHO
+                    </span>
 
-                <span class="eyebrow prayer-eyebrow">
-                    ISENGESHO
-                </span>
+                    <h2>
+                        Nyagasani, twigishe kumva Ijambo ryawe.
+                    </h2>
 
-                <h2>
-                    Nyagasani,
-                    <br>
-                    <span>dufashe kubaho Ijambo ryawe.</span>
-                </h2>
+                    <p>
+                        Yezu Kristu, dufashe kwakira Ijambo ryawe
+                        n'umutima ufunguye. Duhe imbaraga zo kurishyira
+                        mu bikorwa, gukunda bagenzi bacu no kuguma mu nzira
+                        yawe buri munsi.
+                    </p>
 
-                <p>
-                    Mana yacu, turagushimira ku
-                    mpano y'Ijambo ryawe. Duhe
-                    umutima woroshye wo kurumva,
-                    ubwenge bwo kurizirikana,
-                    n'imbaraga zo kurishyira mu
-                    bikorwa. Turinde kandi utuyobore
-                    mu nzira y'urukundo n'amahoro.
-                </p>
+                    <strong>
+                        Amen.
+                    </strong>
 
-                <div class="prayer-divider"></div>
-
-                <span class="prayer-ending">
-                    Amen.
-                </span>
+                </div>
 
             </div>
 
         </section>
 
 
-        <!-- ==================================================
-             SUPPORT
-        =================================================== -->
-
+        <!-- SUPPORT -->
         <section
-            class="support-section"
+            class="section support-section"
             id="dushyigikire"
         >
 
-            <div class="container support-layout">
-
-                <div>
-
-                    <span class="eyebrow">
-                        DUSHYIGIKIRE
-                    </span>
-
-                    <h2>
-                        Fasha uyu murimo
-                        gukomeza kugera ku bandi.
-                    </h2>
-
-                    <p>
-                        Niba iyi gahunda igufasha,
-                        ushobora kuyishyigikira kugira
-                        ngo dukomeze gutegura inyigisho,
-                        amasengesho n'ibindi bikoresho
-                        bifasha abakristu.
-                    </p>
-
-                </div>
-
+            <div class="container">
 
                 <div class="support-card">
 
-                    <span class="support-label">
-                        MTN MOMO
-                    </span>
+                    <div>
 
-                    <strong class="support-code">
-                        199202
-                    </strong>
+                        <span class="eyebrow">
+                            DUTERANE INKUNGA
+                        </span>
 
-                    <p>
-                        Kanda kuri buto iri hasi
-                        cyangwa ukoreshe MoMo
-                        ukoresheje amakuru watanzwe.
-                    </p>
+                        <h2>
+                            Dushyigikire umurimo w'ubutumwa
+                        </h2>
 
-                    <a
-                        href="tel:*182*8*1*199202%23"
-                        class="btn btn-primary"
-                    >
-                        Kwishyura kuri MTN
-                    </a>
+                        <p>
+                            Inkunga yawe ifasha gukomeza guteza imbere
+                            Kiliziya Yacu Nziza no kugeza ubutumwa ku bantu benshi.
+                        </p>
 
-                    <div class="support-contacts">
+                    </div>
 
-                        <a href="tel:0791626869">
-                            0791 626 869
+
+                    <div class="support-actions">
+
+                        <a
+                            href="tel:*182*8*1*199202%23"
+                            class="btn btn-primary"
+                        >
+                            Kwishyura kuri MTN
                         </a>
 
-                        <a href="tel:0734231364">
-                            0734 231 364
-                        </a>
+
+                        <div class="support-details">
+
+                            <span>
+                                MoMoPay:
+                                <strong>199202</strong>
+                            </span>
+
+                            <span>
+                                Tel:
+                                <strong>0791626869</strong>
+                            </span>
+
+                            <span>
+                                Tel:
+                                <strong>0734231364</strong>
+                            </span>
+
+                        </div>
 
                     </div>
 
@@ -1054,12 +849,9 @@
         </section>
 
 
-        <!-- ==================================================
-             CONTACT
-        =================================================== -->
-
+        <!-- CONTACT -->
         <section
-            class="contact-section"
+            class="section section-light"
             id="twandikire"
         >
 
@@ -1072,22 +864,20 @@
                     </span>
 
                     <h2>
-                        Ufite ikibazo,
-                        igitekerezo cyangwa ubuhamya?
+                        Ufite ikibazo cyangwa igitekerezo?
                     </h2>
 
                     <p>
-                        Twifuza kumva ibitekerezo byawe
-                        no kumenya uko twakomeza
-                        kunoza Kiliziya Yacu Nziza.
+                        Twandikire. Ibitekerezo byawe bidufasha
+                        gukomeza kunoza Kiliziya Yacu Nziza.
                     </p>
 
                 </div>
 
 
                 <form
-                    class="contact-form"
                     id="contactForm"
+                    class="contact-form"
                 >
 
                     <div class="form-row">
@@ -1101,8 +891,6 @@
                             <input
                                 type="text"
                                 id="contactName"
-                                name="name"
-                                placeholder="Andika amazina yawe"
                                 required
                             >
 
@@ -1118,8 +906,7 @@
                             <input
                                 type="email"
                                 id="contactEmail"
-                                name="email"
-                                placeholder="example@email.com"
+                                required
                             >
 
                         </div>
@@ -1136,8 +923,6 @@
                         <input
                             type="text"
                             id="contactSubject"
-                            name="subject"
-                            placeholder="Ubutumwa bwawe bujyanye n'iki?"
                             required
                         >
 
@@ -1152,9 +937,7 @@
 
                         <textarea
                             id="contactText"
-                            name="message"
-                            rows="5"
-                            placeholder="Andika ubutumwa bwawe..."
+                            rows="6"
                             required
                         ></textarea>
 
@@ -1166,13 +949,10 @@
                         class="btn btn-primary"
                     >
                         Ohereza ubutumwa
-                        <span>→</span>
                     </button>
 
-                    <p
-                        id="contactMessage"
-                        class="contact-message"
-                    ></p>
+
+                    <div id="contactMessage"></div>
 
                 </form>
 
@@ -1183,144 +963,70 @@
     </main>
 
 
-    <!-- ==================================================
-         FOOTER
-    =================================================== -->
-
+    <!-- FOOTER -->
     <footer class="site-footer">
 
-        <div class="container footer-main">
+        <div class="container footer-inner">
 
             <div class="footer-brand">
 
-                <a
-                    href="#ahabanza"
-                    class="brand footer-brand-link"
-                >
-
-                    <div class="brand-symbol">
-                        <span>✝</span>
-                    </div>
-
-                    <div class="brand-text">
-
-                        <strong>
-                            Kiliziya Yacu Nziza
-                        </strong>
-
-                        <small>
-                            Mu nzira ya Yezu Kristu
-                        </small>
-
-                    </div>
-
-                </a>
+                <strong>
+                    Kiliziya Yacu Nziza
+                </strong>
 
                 <p>
-                    Urubuga rwo kuzirikana
-                    Ijambo ry'Imana, gusenga,
-                    kwiga no gusangira ukwemera.
+                    Yezu Kristu ni we Rumuri rwacu.
                 </p>
 
             </div>
 
 
-            <div class="footer-column">
+            <div class="footer-links">
 
-                <h3>
-                    Ahantu
-                </h3>
-
-                <a href="#ahabanza">
-                    Ahabanza
-                </a>
-
-                <a href="#amasomo">
-                    Amasomo
-                </a>
-
-                <a href="#kuzirikana">
-                    Kuzirikana
-                </a>
-
-                <a href="#isomero">
-                    Isomero
-                </a>
-
-            </div>
-
-
-            <div class="footer-column">
-
-                <h3>
-                    Umuryango
-                </h3>
-
-                <a href="#amafoto">
-                    Amafoto
-                </a>
-
-                <a href="#isengesho">
-                    Isengesho
-                </a>
-
-                <a href="#twandikire">
-                    Twandikire
-                </a>
-
-                <a href="#dushyigikire">
-                    Dushyigikire
-                </a>
-
-            </div>
-
-
-            <div class="footer-column">
-
-                <h3>
-                    Amategeko
-                </h3>
-
-                <a href="privacy.html">
+                <a
+                    href="https://kiliziya-yacu-nziza.netlify.app/privacy.html"
+                >
                     Privacy Policy
                 </a>
 
-                <a href="terms.html">
-                    Terms & Conditions
+                <a
+                    href="https://kiliziya-yacu-nziza.netlify.app/terms.html"
+                >
+                    Amategeko n'Amabwiriza
                 </a>
 
-                <a href="admin.html">
+                <a
+                    href="https://kiliziya-yacu-nziza.netlify.app/admin.html"
+                >
                     Admin
                 </a>
 
             </div>
 
-        </div>
 
+            <div class="footer-copy">
 
-        <div class="container footer-bottom">
+                ©
+                <span id="year"></span>
+                Kiliziya Yacu Nziza
 
-            <p>
-                © <span id="year"></span>
-                Kiliziya Yacu Nziza.
-                Uburenganzira bwose burabitswe.
-            </p>
-
-            <p>
-                Byubakiwe mu gukorera Imana
-                n'umuryango w'abakristu.
-            </p>
+            </div>
 
         </div>
 
     </footer>
 
 
-    <!-- ==================================================
-         JAVASCRIPT
-    =================================================== -->
+    <!-- SUPABASE -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+    ></script>
 
-    <script src="script.js"></script>
+    <!-- WEBSITE JAVASCRIPT -->
+    <script
+        src="https://kiliziya-yacu-nziza.netlify.app/script.js"
+    ></script>
 
 </body>
+
 </html>
