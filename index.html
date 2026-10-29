@@ -2,1580 +2,2105 @@
 <html lang="rw">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Kiliziya Yacu Nziza — Kuzirikana Amasomo ya Buri Munsi</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <meta name="description"
-        content="Kiliziya Yacu Nziza — urubuga rwo kuzirikana Ijambo ry'Imana, amasomo ya buri munsi, amasengesho, inyigisho n'ibikorwa bya Kiliziya.">
+  <meta
+    name="description"
+    content="Kiliziya Yacu Nziza - Kuzirikana amasomo ya buri munsi, gusenga, kwiga no gukomeza ukwemera muri Yezu Kristu."
+  >
 
-  <meta name="google-site-verification"
-        content="sQz4d2TEB2Gx7iLy-uRA97cOYCfDYohslaao66sTdhs">
+  <meta
+    name="google-site-verification"
+    content="sQz4d2TEB2Gx7iLy-uRA97cOYCfDYohslaao66sTdhs"
+  >
 
-  <link rel="canonical"
-        href="https://kiliziya-yacu-nziza.netlify.app/">
+  <link
+    rel="canonical"
+    href="https://kiliziya-yacu-nziza.netlify.app/"
+  >
+
+  <title>Kiliziya Yacu Nziza | Yezu Kristu</title>
 
   <link rel="stylesheet" href="style.css">
 
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    /* =====================================================
+       SMALL EXTRA STYLES FOR ACTIVE NAVIGATION
+       ===================================================== */
+
+    .nav-active-indicator {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0;
+      background: #c9a227;
+      z-index: 9999;
+      transition: width 0.25s ease;
+    }
+
+    .success-message {
+      margin-top: 15px;
+      padding: 12px 15px;
+      border-radius: 9px;
+      background: #e8f7ef;
+      color: #075d31;
+      border: 1px solid #bde8cf;
+      display: none;
+    }
+
+    .error-message {
+      margin-top: 15px;
+      padding: 12px 15px;
+      border-radius: 9px;
+      background: #fff0f0;
+      color: #8e1b1b;
+      border: 1px solid #f3c1c1;
+      display: none;
+    }
+
+    .support-instructions {
+      white-space: pre-line;
+      margin-top: 15px;
+    }
+
+    .library-actions,
+    .media-actions {
+      margin-top: auto;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- =========================
-     HEADER
-========================= -->
+  <!-- =====================================================
+       TOP ACTIVE INDICATOR
+       ===================================================== -->
 
-<header class="site-header">
+  <div
+    class="nav-active-indicator"
+    id="navActiveIndicator"
+  ></div>
 
-  <div class="container nav-container">
 
-    <a href="#home" class="logo">
-      <span class="logo-cross">✝</span>
-      <span>
-        <strong>Kiliziya Yacu Nziza</strong>
-        <small>Yezu Kristu ni Umwami</small>
-      </span>
-    </a>
+  <!-- =====================================================
+       HEADER
+       ===================================================== -->
 
-    <button id="menuBtn" class="menu-btn" aria-label="Menu">
-      ☰
-    </button>
+  <header id="siteHeader">
 
-    <nav id="mainNav">
+    <div class="container navbar">
 
-      <a href="#home">Ahabanza</a>
-
-      <a href="#amasomo">Amasomo</a>
-
-      <a href="#kuzirikana">Kuzirikana</a>
-
-      <a href="#isengesho">Isengesho</a>
-
-      <a href="#isomero">Isomero</a>
-
-      <a href="#amafoto">Amafoto</a>
-
-      <a href="#twandikire">Twandikire</a>
-
-      <a href="#inkunga" class="support-nav">
-        Dutere inkunga
+      <a
+        href="#ahabanza"
+        class="logo"
+        aria-label="Kiliziya Yacu Nziza"
+      >
+        <span>✝</span>
+        <span>Kiliziya Yacu Nziza</span>
       </a>
 
-    </nav>
 
-  </div>
+      <button
+        class="menu-toggle"
+        id="menuToggle"
+        type="button"
+        aria-label="Fungura menu"
+        aria-expanded="false"
+      >
+        ☰
+      </button>
 
-</header>
 
+      <nav id="mainNav">
 
-<!-- =========================
-     HERO
-========================= -->
-
-<section id="home" class="hero">
-
-  <div class="hero-overlay"></div>
-
-  <div class="container hero-content">
-
-    <div class="hero-text">
-
-      <span class="eyebrow">
-        ✝ Kiliziya Yacu Nziza
-      </span>
-
-      <h1>
-        Kuzirikana amasomo ya buri munsi
-      </h1>
-
-      <p>
-        Dufatanye kuzirikana Ijambo ry'Imana,
-        kumenya Yezu Kristu no gukomeza ukwemera
-        kwacu buri munsi.
-      </p>
-
-      <div class="hero-buttons">
-
-        <a href="#amasomo" class="btn btn-primary">
-          Soma amasomo y'uyu munsi
+        <a
+          href="#ahabanza"
+          class="nav-link active"
+          data-section="ahabanza"
+        >
+          Ahabanza
         </a>
 
-        <a href="#kuzirikana" class="btn btn-light">
+        <a
+          href="#amasomo"
+          class="nav-link"
+          data-section="amasomo"
+        >
+          Amasomo
+        </a>
+
+        <a
+          href="#kuzirikana"
+          class="nav-link"
+          data-section="kuzirikana"
+        >
           Kuzirikana
         </a>
 
-      </div>
+        <a
+          href="#isengesho"
+          class="nav-link"
+          data-section="isengesho"
+        >
+          Isengesho
+        </a>
+
+        <a
+          href="#isomero"
+          class="nav-link"
+          data-section="isomero"
+        >
+          Isomero
+        </a>
+
+        <a
+          href="#amafoto"
+          class="nav-link"
+          data-section="amafoto"
+        >
+          Amafoto
+        </a>
+
+        <a
+          href="#twandikire"
+          class="nav-link"
+          data-section="twandikire"
+        >
+          Twandikire
+        </a>
+
+        <a
+          href="#inkunga"
+          class="nav-link"
+          data-section="inkunga"
+        >
+          Dutere inkunga
+        </a>
+
+      </nav>
 
     </div>
 
-  </div>
-
-</section>
+  </header>
 
 
-<!-- =========================
-     DATE
-========================= -->
+  <!-- =====================================================
+       HERO
+       ===================================================== -->
 
-<section class="today-bar">
+  <main>
 
-  <div class="container">
+    <section
+      class="hero"
+      id="ahabanza"
+    >
 
-    <span>Uyu munsi:</span>
+      <div class="container">
 
-    <strong id="todayDate">
-      --
-    </strong>
+        <div class="hero-content">
 
-  </div>
+          <h1>
+            Kuzirikana amasomo ya buri munsi
+            muri <span>Yezu Kristu</span>
+          </h1>
 
-</section>
+          <p>
+            Kiliziya Yacu Nziza ni urubuga rugufasha
+            gusoma amasomo ya buri munsi, kuyazirikana,
+            gusenga no gukomeza ukwemera kwawe.
+          </p>
 
+          <div class="hero-buttons">
 
-<!-- =========================
-     DAILY READINGS
-========================= -->
+            <a
+              href="#amasomo"
+              class="btn btn-gold"
+            >
+              Soma amasomo y'uyu munsi
+            </a>
 
-<section id="amasomo" class="section">
+            <a
+              href="#kuzirikana"
+              class="btn btn-light"
+            >
+              Tangira kuzirikana
+            </a>
 
-  <div class="container">
+          </div>
 
-    <div class="section-heading">
-
-      <span>📖 IJAMBO RY'IMANA</span>
-
-      <h2>Amasomo ya buri munsi</h2>
-
-      <p>
-        Dusome kandi tuzirikane Ijambo ry'Imana.
-      </p>
-
-    </div>
-
-
-    <div id="readingsLoading" class="loading">
-      Turimo gutegura amasomo...
-    </div>
-
-
-    <div id="readingsContent" class="readings-grid hidden">
-
-      <article class="reading-card">
-
-        <div class="reading-icon">
-          01
         </div>
-
-        <h3>Isomo rya mbere</h3>
-
-        <div id="firstReading">
-          --
-        </div>
-
-      </article>
-
-
-      <article class="reading-card">
-
-        <div class="reading-icon">
-          02
-        </div>
-
-        <h3>Zaburi</h3>
-
-        <div id="psalm">
-          --
-        </div>
-
-      </article>
-
-
-      <article class="reading-card gospel-card">
-
-        <div class="reading-icon">
-          ✝
-        </div>
-
-        <h3>Ivanjili Ntagatifu</h3>
-
-        <div id="gospel">
-          --
-        </div>
-
-      </article>
-
-    </div>
-
-
-    <div id="noReadings" class="empty-state hidden">
-
-      <strong>Amasomo ntaraboneka.</strong>
-
-      <p>
-        Garuka nyuma gato cyangwa usubiremo page.
-      </p>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     REFLECTION
-========================= -->
-
-<section id="kuzirikana" class="section section-soft">
-
-  <div class="container">
-
-    <div class="section-heading">
-
-      <span>💡 KUZIRIKANA</span>
-
-      <h2>Ijambo ritubwira iki uyu munsi?</h2>
-
-    </div>
-
-
-    <div id="reflectionLoading" class="loading">
-      Turimo gutegura kuzirikana...
-    </div>
-
-
-    <article id="reflectionCard" class="reflection-card hidden">
-
-      <div class="reflection-mark">
-        “
-      </div>
-
-      <div id="reflectionText">
-        --
-      </div>
-
-    </article>
-
-
-    <div id="lessonBox" class="lesson-box hidden">
-
-      <h3>
-        <span>✦</span>
-        Inyigisho y'uyu munsi
-      </h3>
-
-      <div id="lessonText">
-        --
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     QUESTION & ANSWER
-========================= -->
-
-<section id="ikibazo" class="section">
-
-  <div class="container">
-
-    <div class="section-heading">
-
-      <span>❓ IKIBAZO N'IGISUBIZO</span>
-
-      <h2>Twibaze kandi dusubize</h2>
-
-    </div>
-
-
-    <div id="questionLoading" class="loading">
-      Turimo gutegura...
-    </div>
-
-
-    <div id="questionCard" class="qa-card hidden">
-
-      <div class="question-label">
-        Ikibazo
-      </div>
-
-      <h3 id="questionText">
-        --
-      </h3>
-
-
-      <div class="answer-area">
-
-        <div class="answer-label">
-          Igisubizo
-        </div>
-
-        <p id="answerText">
-          --
-        </p>
 
       </div>
 
-    </div>
-
-  </div>
-
-</section>
+    </section>
 
 
-<!-- =========================
-     PRAYER
-========================= -->
+    <!-- =================================================
+         DATE BAR
+         ================================================= -->
 
-<section id="isengesho" class="prayer-section">
+    <div class="date-bar">
 
-  <div class="container">
+      <div class="container">
 
-    <div class="prayer-card">
-
-      <div class="prayer-icon">
-        ✝
-      </div>
-
-      <div>
-
-        <span class="section-label">
-          🙏 ISENGESHO
+        <span>
+          Uyu munsi:
         </span>
 
-        <h2>Isengesho ry'uyu munsi</h2>
+        <strong id="currentDate">
+          Turimo gutegura...
+        </strong>
 
-        <div id="prayerText">
-          Turagusaba Mana,
-          utuyobore kandi udushoboze kubaho
-          dukurikiza Ijambo ryawe.
-          Amen.
+      </div>
+
+    </div>
+
+
+    <!-- =================================================
+         AMASOMO
+         ================================================= -->
+
+    <section id="amasomo">
+
+      <div class="container">
+
+        <div class="section-title">
+
+          <h2>Amasomo ya buri munsi</h2>
+
+          <p>
+            Amasomo ya Kiliziya adufasha kumva
+            Ijambo ry'Imana no kurishyira mu buzima bwacu.
+          </p>
+
         </div>
 
-      </div>
 
-    </div>
+        <div
+          id="readingsContainer"
+          class="readings-grid"
+        >
 
-  </div>
+          <div class="loading">
 
-</section>
+            <div class="spinner"></div>
 
+            Gutegura amasomo...
 
-<!-- =========================
-     PHOTOS
-========================= -->
-
-<section id="amafoto" class="section">
-
-  <div class="container">
-
-    <div class="section-heading">
-
-      <span>📸 AMAFOTO</span>
-
-      <h2>Ubuzima bwa Kiliziya</h2>
-
-      <p>
-        Reba amafoto y'ibikorwa n'ubuzima bwa Kiliziya.
-      </p>
-
-    </div>
-
-
-    <div id="photosLoading" class="loading">
-      Turimo gutegura amafoto...
-    </div>
-
-
-    <div id="photosGrid" class="photos-grid hidden"></div>
-
-
-    <div id="noPhotos" class="empty-state hidden">
-      Nta mafoto araboneka.
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     LIBRARY
-========================= -->
-
-<section id="isomero" class="section section-soft">
-
-  <div class="container">
-
-    <div class="section-heading">
-
-      <span>📚 ISOMERO</span>
-
-      <h2>Isomero rya Kiliziya</h2>
-
-      <p>
-        Ibitabo, inyigisho n'izindi nyandiko
-        zagufasha gukomeza ukwemera.
-      </p>
-
-    </div>
-
-
-    <div id="libraryLoading" class="loading">
-      Turimo gutegura isomero...
-    </div>
-
-
-    <div id="libraryGrid" class="library-grid hidden"></div>
-
-
-    <div id="noLibrary" class="empty-state hidden">
-      Nta nyandiko araboneka.
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     MEDIA
-========================= -->
-
-<section id="media" class="section">
-
-  <div class="container">
-
-    <div class="section-heading">
-
-      <span>🎵 AUDIO & VIDEO</span>
-
-      <h2>Umva kandi urebe</h2>
-
-    </div>
-
-
-    <div id="mediaGrid" class="media-grid">
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     SUPPORT
-========================= -->
-
-<section id="inkunga" class="support-section">
-
-  <div class="container">
-
-    <div id="supportContent">
-
-      <div class="support-loading">
-        Turimo gutegura amakuru y'inkunga...
-      </div>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     CONTACT
-========================= -->
-
-<section id="twandikire" class="section section-soft">
-
-  <div class="container">
-
-    <div class="section-heading">
-
-      <span>✉️ TWANDIKIRE</span>
-
-      <h2>Twandikire</h2>
-
-      <p>
-        Ufite igitekerezo, ikibazo cyangwa ubutumwa?
-        Twandikire.
-      </p>
-
-    </div>
-
-
-    <div class="contact-grid">
-
-      <div class="contact-info">
-
-        <h3>
-          Duhuze
-        </h3>
-
-        <p>
-          Turishimira kumva ibitekerezo n'ubutumwa
-          bw'abasura Kiliziya Yacu Nziza.
-        </p>
-
-        <div class="contact-item">
-          <span>✝</span>
-          <div>
-            <strong>Kiliziya Yacu Nziza</strong>
-            <small>
-              Kuzirikana no gukura mu kwemera.
-            </small>
           </div>
+
         </div>
 
       </div>
 
-
-      <form id="contactForm" class="contact-form">
-
-        <div id="contactMessage" class="form-message"></div>
-
-        <div class="form-group">
-
-          <label for="contactName">
-            Amazina
-          </label>
-
-          <input
-            type="text"
-            id="contactName"
-            required
-            placeholder="Amazina yawe">
-
-        </div>
+    </section>
 
 
-        <div class="form-group">
+    <!-- =================================================
+         KUZIRIKANA
+         ================================================= -->
 
-          <label for="contactEmail">
-            Email
-          </label>
+    <section id="kuzirikana">
 
-          <input
-            type="email"
-            id="contactEmail"
-            placeholder="email@example.com">
+      <div class="container">
+
+        <div class="section-title">
+
+          <h2>Kuzirikana</h2>
+
+          <p>
+            Ijambo ry'Imana turisoma, tukarizirikana,
+            maze tukarishyira mu bikorwa.
+          </p>
 
         </div>
 
 
-        <div class="form-group">
+        <div
+          id="dailyContentContainer"
+          class="content-grid"
+        >
 
-          <label for="contactPhone">
-            Telefoni
-          </label>
+          <div class="loading">
 
-          <input
-            type="tel"
-            id="contactPhone"
-            placeholder="07...">
+            <div class="spinner"></div>
 
-        </div>
+            Gutegura inyigisho...
 
-
-        <div class="form-group">
-
-          <label for="contactText">
-            Ubutumwa
-          </label>
-
-          <textarea
-            id="contactText"
-            rows="6"
-            required
-            placeholder="Andika ubutumwa bwawe..."></textarea>
+          </div>
 
         </div>
 
-
-        <button class="btn btn-primary" type="submit">
-          Ohereza ubutumwa
-        </button>
-
-      </form>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-<!-- =========================
-     FOOTER
-========================= -->
-
-<footer class="site-footer">
-
-  <div class="container footer-grid">
-
-    <div>
-
-      <div class="footer-brand">
-        ✝ Kiliziya Yacu Nziza
       </div>
 
-      <p>
-        Kuzirikana amasomo ya buri munsi,
-        gukomeza ukwemera no gukurikira
-        Yezu Kristu.
-      </p>
-
-    </div>
+    </section>
 
 
-    <div>
+    <!-- =================================================
+         IKIBAZO N'IGISUBIZO
+         ================================================= -->
 
-      <h3>
-        Ahantu
-      </h3>
+    <section id="ikibazo">
 
-      <a href="#home">
-        Ahabanza
-      </a>
+      <div class="container">
 
-      <a href="#amasomo">
-        Amasomo
-      </a>
+        <div class="section-title">
 
-      <a href="#kuzirikana">
-        Kuzirikana
-      </a>
+          <h2>Ikibazo n'Igisubizo</h2>
 
-      <a href="#isomero">
-        Isomero
-      </a>
+          <p>
+            Ibibazo bidufasha gutekereza ku Ijambo ry'Imana.
+          </p>
 
-    </div>
+        </div>
 
 
-    <div>
+        <div
+          id="qaContainer"
+          class="qa-card"
+        >
 
-      <h3>
-        Ubufasha
-      </h3>
+          <div class="loading">
 
-      <a href="#twandikire">
-        Twandikire
-      </a>
+            <div class="spinner"></div>
 
-      <a href="#inkunga">
-        Dutere inkunga
-      </a>
+            Gutegura ikibazo...
 
-      <a href="admin.html">
-        Admin
-      </a>
+          </div>
 
-    </div>
+        </div>
 
+      </div>
 
-    <div>
-
-      <h3>
-        Amategeko
-      </h3>
-
-      <a href="#" id="privacyLink">
-        Privacy Policy
-      </a>
-
-      <a href="#" id="termsLink">
-        Terms & Conditions
-      </a>
-
-    </div>
-
-  </div>
+    </section>
 
 
-  <div class="footer-bottom">
+    <!-- =================================================
+         ISENGESHO
+         ================================================= -->
+
+    <section id="isengesho">
+
+      <div class="container">
+
+        <div class="section-title">
+
+          <h2>Isengesho</h2>
+
+          <p>
+            Dufate akanya ko kwegera Imana
+            no kuyishyikiriza ubuzima bwacu.
+          </p>
+
+        </div>
+
+
+        <div
+          id="prayerContainer"
+          class="prayer-box"
+        >
+
+          <div class="loading">
+
+            <div class="spinner"></div>
+
+            Gutegura isengesho...
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         ISOMERO
+         ================================================= -->
+
+    <section id="isomero">
+
+      <div class="container">
+
+        <div class="section-title">
+
+          <h2>Isomero</h2>
+
+          <p>
+            Ibitabo, inyigisho na PDF byagufasha
+            gukomeza kwiga no gusenga.
+          </p>
+
+        </div>
+
+
+        <div
+          id="libraryContainer"
+          class="library-grid"
+        >
+
+          <div class="loading">
+
+            <div class="spinner"></div>
+
+            Gutegura isomero...
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         AMAFOTO
+         ================================================= -->
+
+    <section id="amafoto">
+
+      <div class="container">
+
+        <div class="section-title">
+
+          <h2>Amafoto</h2>
+
+          <p>
+            Reba amafoto y'ibikorwa n'ubuzima
+            bwa Kiliziya.
+          </p>
+
+        </div>
+
+
+        <div
+          id="photosContainer"
+          class="photo-grid"
+        >
+
+          <div class="loading">
+
+            <div class="spinner"></div>
+
+            Gutegura amafoto...
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         AUDIO / VIDEO / LINKS
+         ================================================= -->
+
+    <section id="media">
+
+      <div class="container">
+
+        <div class="section-title">
+
+          <h2>Audio, Video n'Izindi Links</h2>
+
+          <p>
+            Ahantu ushobora gukomeza kumva,
+            kureba no kwiga byinshi.
+          </p>
+
+        </div>
+
+
+        <div
+          id="mediaContainer"
+          class="media-grid"
+        >
+
+          <div class="loading">
+
+            <div class="spinner"></div>
+
+            Gutegura links...
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         DUTERE INKUNGA
+         ================================================= -->
+
+    <section
+      id="inkunga"
+      class="support-section"
+    >
+
+      <div class="container">
+
+        <div class="section-title">
+
+          <h2>Dutere inkunga</h2>
+
+          <p>
+            Inkunga yawe idufasha gukomeza gutangaza
+            ubutumwa bwiza no kubaka uru rubuga.
+          </p>
+
+        </div>
+
+
+        <div
+          id="supportContainer"
+          class="support-card"
+        >
+
+          <div class="loading">
+
+            <div class="spinner"></div>
+
+            Gutegura amakuru y'inkunga...
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- =================================================
+         TWANDIKIRE
+         ================================================= -->
+
+    <section id="twandikire">
+
+      <div class="container">
+
+        <div class="section-title">
+
+          <h2>Twandikire</h2>
+
+          <p>
+            Ufite ikibazo, igitekerezo cyangwa ubutumwa?
+            Twandikire.
+          </p>
+
+        </div>
+
+
+        <div class="contact-grid">
+
+
+          <div class="contact-info">
+
+            <h3>
+              Kiliziya Yacu Nziza
+            </h3>
+
+            <p>
+              Turifuza kumva ibitekerezo byawe
+              no gukomeza kunoza uru rubuga.
+            </p>
+
+            <p>
+              <strong>Yezu Kristu abe ishimwe.</strong>
+            </p>
+
+          </div>
+
+
+          <form
+            id="contactForm"
+            class="contact-form"
+          >
+
+            <div class="form-group">
+
+              <label for="contactName">
+                Amazina
+              </label>
+
+              <input
+                id="contactName"
+                type="text"
+                required
+                placeholder="Andika amazina yawe"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="contactEmail">
+                Email
+              </label>
+
+              <input
+                id="contactEmail"
+                type="email"
+                placeholder="example@email.com"
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="contactPhone">
+                Telefoni
+              </label>
+
+              <input
+                id="contactPhone"
+                type="tel"
+                placeholder="07..."
+              >
+
+            </div>
+
+
+            <div class="form-group">
+
+              <label for="contactMessage">
+                Ubutumwa
+              </label>
+
+              <textarea
+                id="contactMessage"
+                required
+                placeholder="Andika ubutumwa bwawe..."
+              ></textarea>
+
+            </div>
+
+
+            <button
+              type="submit"
+              class="btn btn-primary"
+            >
+              Ohereza ubutumwa
+            </button>
+
+
+            <div
+              id="contactSuccess"
+              class="success-message"
+            >
+              Ubutumwa bwawe bwoherejwe neza. Murakoze!
+            </div>
+
+
+            <div
+              id="contactError"
+              class="error-message"
+            >
+              Habaye ikibazo mu kohereza ubutumwa.
+              Ongera ugerageze.
+            </div>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+  <!-- =====================================================
+       FOOTER
+       ===================================================== -->
+
+  <footer>
 
     <div class="container">
 
-      © <span id="footerYear"></span>
-      Kiliziya Yacu Nziza.
-      Uburenganzira bwose burabitswe.
+      <div class="footer-grid">
 
-    </div>
-
-  </div>
-
-</footer>
-
-
-<!-- =========================
-     MODAL
-========================= -->
-
-<div id="legalModal" class="modal hidden">
-
-  <div class="modal-content">
-
-    <button id="closeModal" class="modal-close">
-      ×
-    </button>
-
-    <h2 id="modalTitle">
-      Privacy Policy
-    </h2>
-
-    <div id="modalBody">
-    </div>
-
-  </div>
-
-</div>
-
-
-<script>
-
-const SUPABASE_URL =
-  "https://iqurlyrppouwcssctonu.supabase.co";
-
-const SUPABASE_PUBLISHABLE_KEY =
-  "sb_publishable_QZVM-iXloVEDgc7fpwZhCQ_4bHRfp8d";
-
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_PUBLISHABLE_KEY
-  );
-
-
-/* =========================
-   HELPERS
-========================= */
-
-function escapeHtml(value) {
-
-  if (value === null || value === undefined) {
-    return "";
-  }
-
-  return String(value)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
-
-
-function formatText(value) {
-
-  return escapeHtml(value || "")
-    .replace(/\n/g, "<br>");
-}
-
-
-function show(element) {
-
-  if (element) {
-    element.classList.remove("hidden");
-  }
-
-}
-
-
-function hide(element) {
-
-  if (element) {
-    element.classList.add("hidden");
-  }
-
-}
-
-
-/* =========================
-   DATE
-========================= */
-
-function setDate() {
-
-  const el =
-    document.getElementById("todayDate");
-
-  const now = new Date();
-
-  el.textContent =
-    now.toLocaleDateString("rw-RW", {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric"
-    });
-
-}
-
-
-setDate();
-
-
-document.getElementById("footerYear").textContent =
-  new Date().getFullYear();
-
-
-/* =========================
-   READINGS
-========================= */
-
-async function loadReadings() {
-
-  const loading =
-    document.getElementById("readingsLoading");
-
-  const content =
-    document.getElementById("readingsContent");
-
-  const empty =
-    document.getElementById("noReadings");
-
-  try {
-
-    const { data, error } =
-      await supabaseClient
-        .from("daily_readings")
-        .select("*")
-        .eq("published", true)
-        .order("reading_date", {
-          ascending: false
-        })
-        .limit(1);
-
-    hide(loading);
-
-    if (error) {
-      console.error(error);
-      show(empty);
-      return;
-    }
-
-    if (!data || !data.length) {
-      show(empty);
-      return;
-    }
-
-    const reading = data[0];
-
-    document.getElementById("firstReading").innerHTML =
-      formatText(reading.first_reading);
-
-    document.getElementById("psalm").innerHTML =
-      formatText(reading.psalm);
-
-    document.getElementById("gospel").innerHTML =
-      formatText(reading.gospel);
-
-    show(content);
-
-  } catch (error) {
-
-    console.error(error);
-    hide(loading);
-    show(empty);
-
-  }
-
-}
-
-
-/* =========================
-   DAILY CONTENT
-========================= */
-
-async function loadDailyContent() {
-
-  const reflectionLoading =
-    document.getElementById("reflectionLoading");
-
-  const reflectionCard =
-    document.getElementById("reflectionCard");
-
-  const lessonBox =
-    document.getElementById("lessonBox");
-
-  const questionLoading =
-    document.getElementById("questionLoading");
-
-  const questionCard =
-    document.getElementById("questionCard");
-
-
-  const { data, error } =
-    await supabaseClient
-      .from("daily_content")
-      .select("*")
-      .eq("published", true)
-      .order("content_date", {
-        ascending: false
-      })
-      .limit(1);
-
-
-  hide(reflectionLoading);
-  hide(questionLoading);
-
-
-  if (error || !data || !data.length) {
-
-    document.getElementById("reflectionText").textContent =
-      "Kuzirikana kw'uyu munsi ntikuraboneka.";
-
-    document.getElementById("questionText").textContent =
-      "Ikibazo cy'uyu munsi ntikiraboneka.";
-
-    document.getElementById("answerText").textContent =
-      "Igisubizo ntikiraboneka.";
-
-    show(reflectionCard);
-    show(questionCard);
-
-    return;
-  }
-
-
-  const item = data[0];
-
-
-  if (item.reflection) {
-
-    document.getElementById("reflectionText").innerHTML =
-      formatText(item.reflection);
-
-    show(reflectionCard);
-
-  }
-
-
-  if (item.lesson) {
-
-    document.getElementById("lessonText").innerHTML =
-      formatText(item.lesson);
-
-    show(lessonBox);
-
-  }
-
-
-  if (item.question) {
-
-    document.getElementById("questionText").innerHTML =
-      formatText(item.question);
-
-    document.getElementById("answerText").innerHTML =
-      formatText(item.answer);
-
-    show(questionCard);
-
-  }
-
-
-  if (item.prayer) {
-
-    document.getElementById("prayerText").innerHTML =
-      formatText(item.prayer);
-
-  }
-
-}
-
-
-/* =========================
-   PHOTOS
-========================= */
-
-async function loadPhotos() {
-
-  const loading =
-    document.getElementById("photosLoading");
-
-  const grid =
-    document.getElementById("photosGrid");
-
-  const empty =
-    document.getElementById("noPhotos");
-
-
-  const { data, error } =
-    await supabaseClient
-      .from("photos")
-      .select("*")
-      .eq("published", true)
-      .order("created_at", {
-        ascending: false
-      })
-      .limit(12);
-
-
-  hide(loading);
-
-
-  if (error || !data || !data.length) {
-
-    show(empty);
-    return;
-
-  }
-
-
-  grid.innerHTML =
-    data.map(photo => `
-
-      <article class="photo-card">
-
-        <img
-          src="${escapeHtml(photo.image_url)}"
-          alt="${escapeHtml(photo.title)}"
-          loading="lazy">
-
-        <div class="photo-caption">
-
-          <h3>
-            ${escapeHtml(photo.title)}
-          </h3>
-
-          ${
-            photo.description
-              ? `<p>${escapeHtml(photo.description)}</p>`
-              : ""
-          }
-
-        </div>
-
-      </article>
-
-    `).join("");
-
-
-  show(grid);
-
-}
-
-
-/* =========================
-   LIBRARY
-========================= */
-
-async function loadLibrary() {
-
-  const loading =
-    document.getElementById("libraryLoading");
-
-  const grid =
-    document.getElementById("libraryGrid");
-
-  const empty =
-    document.getElementById("noLibrary");
-
-
-  const { data, error } =
-    await supabaseClient
-      .from("library_items")
-      .select("*")
-      .eq("published", true)
-      .order("created_at", {
-        ascending: false
-      });
-
-
-  hide(loading);
-
-
-  if (error || !data || !data.length) {
-
-    show(empty);
-    return;
-
-  }
-
-
-  grid.innerHTML =
-    data.map(item => `
-
-      <article class="library-card">
-
-        <div class="library-icon">
-          PDF
-        </div>
 
         <div>
 
           <h3>
-            ${escapeHtml(item.title)}
+            Kiliziya Yacu Nziza
           </h3>
 
-          ${
-            item.description
-              ? `<p>${escapeHtml(item.description)}</p>`
-              : ""
-          }
-
-          <a
-            href="${escapeHtml(item.file_url)}"
-            target="_blank"
-            rel="noopener"
-            class="btn btn-primary">
-
-            Fungura PDF
-
-          </a>
+          <p>
+            Urubuga rwo kuzirikana amasomo ya buri munsi,
+            gusenga no gukomeza ukwemera muri Yezu Kristu.
+          </p>
 
         </div>
 
-      </article>
 
-    `).join("");
+        <div>
 
+          <h4>
+            Ahandi
+          </h4>
 
-  show(grid);
+          <div class="footer-links">
 
-}
+            <a href="#ahabanza">
+              Ahabanza
+            </a>
 
+            <a href="#amasomo">
+              Amasomo
+            </a>
 
-/* =========================
-   MEDIA
-========================= */
+            <a href="#kuzirikana">
+              Kuzirikana
+            </a>
 
-async function loadMedia() {
+            <a href="#isengesho">
+              Isengesho
+            </a>
 
-  const grid =
-    document.getElementById("mediaGrid");
+            <a href="#isomero">
+              Isomero
+            </a>
 
+          </div>
 
-  const { data, error } =
-    await supabaseClient
-      .from("media_links")
-      .select("*")
-      .eq("published", true)
-      .order("created_at", {
-        ascending: false
-      })
-      .limit(12);
-
-
-  if (error || !data || !data.length) {
-
-    grid.innerHTML = "";
-
-    return;
-
-  }
-
-
-  grid.innerHTML =
-    data.map(item => `
-
-      <article class="media-card">
-
-        <div class="media-icon">
-          ${
-            item.media_type === "audio"
-              ? "🎵"
-              : item.media_type === "video"
-              ? "▶"
-              : "🔗"
-          }
         </div>
 
-        <h3>
-          ${escapeHtml(item.title)}
-        </h3>
 
-        ${
-          item.description
-            ? `<p>${escapeHtml(item.description)}</p>`
-            : ""
-        }
+        <div>
 
-        <a
-          href="${escapeHtml(item.url)}"
-          target="_blank"
-          rel="noopener"
-          class="text-link">
+          <h4>
+            Amakuru
+          </h4>
 
-          Fungura →
+          <div class="footer-links">
 
-        </a>
+            <a
+              href="#"
+              onclick="openLegal('privacy'); return false;"
+            >
+              Privacy Policy
+            </a>
 
-      </article>
+            <a
+              href="#"
+              onclick="openLegal('terms'); return false;"
+            >
+              Terms & Conditions
+            </a>
 
-    `).join("");
+            <a href="#twandikire">
+              Twandikire
+            </a>
 
-}
+            <a href="admin.html">
+              Admin
+            </a>
 
+          </div>
 
-/* =========================
-   SUPPORT
-========================= */
-
-async function loadSupport() {
-
-  const container =
-    document.getElementById("supportContent");
-
-
-  const { data, error } =
-    await supabaseClient
-      .from("support_settings")
-      .select("*")
-      .eq("enabled", true)
-      .limit(1)
-      .maybeSingle();
-
-
-  if (error || !data) {
-
-    container.innerHTML = "";
-
-    return;
-
-  }
-
-
-  let phone = data.phone_number || "";
-
-  let tel =
-    phone.replace(/[^\d+]/g, "");
-
-
-  container.innerHTML = `
-
-    <div class="support-inner">
-
-      <div class="support-text">
-
-        <span class="section-label">
-          ❤️ DUTERE INKUNGA
-        </span>
-
-        <h2>
-          ${escapeHtml(
-            data.title || "Dutere inkunga"
-          )}
-        </h2>
-
-        ${
-          data.description
-            ? `<p>${formatText(data.description)}</p>`
-            : ""
-        }
+        </div>
 
       </div>
 
 
-      <div class="support-details">
+      <div class="footer-bottom">
 
-        ${
-          data.provider
-            ? `
-              <div class="support-row">
-
-                <span>Provider</span>
-
-                <strong>
-                  ${escapeHtml(data.provider)}
-                </strong>
-
-              </div>
-            `
-            : ""
-        }
-
-
-        ${
-          phone
-            ? `
-              <div class="support-row">
-
-                <span>Telefoni</span>
-
-                <a
-                  href="tel:${escapeHtml(tel)}"
-                  class="support-phone">
-
-                  ${escapeHtml(phone)}
-
-                </a>
-
-              </div>
-            `
-            : ""
-        }
-
-
-        ${
-          data.ussd_code
-            ? `
-              <div class="support-row">
-
-                <span>Code</span>
-
-                <strong>
-                  ${escapeHtml(data.ussd_code)}
-                </strong>
-
-              </div>
-            `
-            : ""
-        }
-
-
-        ${
-          data.account_name
-            ? `
-              <div class="support-row">
-
-                <span>Account</span>
-
-                <strong>
-                  ${escapeHtml(data.account_name)}
-                </strong>
-
-              </div>
-            `
-            : ""
-        }
-
-
-        ${
-          data.instructions
-            ? `
-              <div class="support-instructions">
-
-                <strong>
-                  Amabwiriza
-                </strong>
-
-                <p>
-                  ${formatText(data.instructions)}
-                </p>
-
-              </div>
-            `
-            : ""
-        }
+        © <span id="footerYear"></span>
+        Kiliziya Yacu Nziza.
+        Uburenganzira bwose burabitswe.
 
       </div>
 
     </div>
 
-  `;
-
-}
+  </footer>
 
 
-/* =========================
-   CONTACT FORM
-========================= */
+  <!-- =====================================================
+       LEGAL MODAL
+       ===================================================== -->
 
-document
-  .getElementById("contactForm")
-  .addEventListener("submit", async event => {
+  <div
+    class="modal"
+    id="legalModal"
+    aria-hidden="true"
+  >
 
-    event.preventDefault();
+    <div class="modal-content">
 
-
-    const message =
-      document.getElementById("contactMessage");
-
-
-    const payload = {
-
-      name:
-        document.getElementById("contactName").value.trim(),
-
-      email:
-        document.getElementById("contactEmail").value.trim(),
-
-      phone:
-        document.getElementById("contactPhone").value.trim(),
-
-      message:
-        document.getElementById("contactText").value.trim()
-
-    };
+      <button
+        class="modal-close"
+        type="button"
+        onclick="closeLegal()"
+        aria-label="Funga"
+      >
+        ×
+      </button>
 
 
-    const { error } =
-      await supabaseClient
-        .from("contact_messages")
-        .insert(payload);
+      <h2 id="legalTitle">
+        Privacy Policy
+      </h2>
 
 
-    if (error) {
+      <div id="legalBody">
 
-      message.textContent =
-        "Habaye ikibazo mu kohereza ubutumwa. Ongera ugerageze.";
+        <p>
+          Turubaha kandi twubaha ubuzima bwite
+          bw'abasura uru rubuga.
+        </p>
 
-      message.className =
-        "form-message error";
+      </div>
 
-      return;
+    </div>
+
+  </div>
+
+
+  <!-- =====================================================
+       SUPABASE
+       ===================================================== -->
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+  <script>
+
+    /* =====================================================
+       SUPABASE CONFIGURATION
+       ===================================================== */
+
+    const SUPABASE_URL =
+      "https://iqurlyrppouwcssctonu.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_QZVM-iXloVEDgc7fpwZhCQ_4bHRfp8d";
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+
+
+    /* =====================================================
+       GENERAL HELPERS
+       ===================================================== */
+
+    function escapeHTML(value) {
+
+      if (value === null || value === undefined) {
+        return "";
+      }
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 
     }
 
 
-    message.textContent =
-      "Ubutumwa bwawe bwoherejwe neza. Murakoze!";
+    function formatDate(dateString) {
 
-    message.className =
-      "form-message success";
+      if (!dateString) {
+        return "";
+      }
 
+      const date = new Date(dateString + "T00:00:00");
 
-    document
-      .getElementById("contactForm")
-      .reset();
+      return date.toLocaleDateString(
+        "rw-RW",
+        {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        }
+      );
 
-  });
-
-
-/* =========================
-   MOBILE MENU
-========================= */
-
-document
-  .getElementById("menuBtn")
-  .addEventListener("click", () => {
-
-    document
-      .getElementById("mainNav")
-      .classList.toggle("open");
-
-  });
+    }
 
 
-document
-  .querySelectorAll("#mainNav a")
-  .forEach(link => {
+    function todayString() {
 
-    link.addEventListener("click", () => {
+      const now = new Date();
 
-      document
-        .getElementById("mainNav")
-        .classList.remove("open");
+      const year =
+        now.getFullYear();
 
-    });
+      const month =
+        String(now.getMonth() + 1)
+          .padStart(2, "0");
 
-  });
+      const day =
+        String(now.getDate())
+          .padStart(2, "0");
 
+      return `${year}-${month}-${day}`;
 
-/* =========================
-   LEGAL MODAL
-========================= */
-
-const modal =
-  document.getElementById("legalModal");
-
-const modalTitle =
-  document.getElementById("modalTitle");
-
-const modalBody =
-  document.getElementById("modalBody");
+    }
 
 
-function openLegal(type) {
+    /* =====================================================
+       DATE
+       ===================================================== */
 
-  const key =
-    type === "privacy"
-      ? "kyz_privacy"
-      : "kyz_terms";
-
-  const stored =
-    localStorage.getItem(key);
+    document.getElementById("currentDate").textContent =
+      formatDate(todayString());
 
 
-  modalTitle.textContent =
-    type === "privacy"
-      ? "Privacy Policy"
-      : "Terms & Conditions";
+    document.getElementById("footerYear").textContent =
+      new Date().getFullYear();
 
 
-  modalBody.innerHTML =
-    stored
-      ? formatText(stored)
-      : `
-        <p>
-          Amakuru arategurwa.
-        </p>
+    /* =====================================================
+       MOBILE MENU
+       ===================================================== */
+
+    const menuToggle =
+      document.getElementById("menuToggle");
+
+    const mainNav =
+      document.getElementById("mainNav");
+
+
+    menuToggle.addEventListener(
+      "click",
+      function () {
+
+        const isOpen =
+          mainNav.classList.toggle("open");
+
+        menuToggle.setAttribute(
+          "aria-expanded",
+          String(isOpen)
+        );
+
+        menuToggle.textContent =
+          isOpen ? "×" : "☰";
+
+      }
+    );
+
+
+    /* =====================================================
+       NAVIGATION
+       ===================================================== */
+
+    const navLinks =
+      document.querySelectorAll(".nav-link");
+
+
+    function setActiveNav(sectionId) {
+
+      navLinks.forEach(
+        function (link) {
+
+          const isActive =
+            link.dataset.section === sectionId;
+
+          link.classList.toggle(
+            "active",
+            isActive
+          );
+
+        }
+      );
+
+    }
+
+
+    navLinks.forEach(
+      function (link) {
+
+        link.addEventListener(
+          "click",
+          function () {
+
+            const sectionId =
+              link.dataset.section;
+
+            setActiveNav(sectionId);
+
+
+            if (
+              window.innerWidth <= 780
+            ) {
+
+              mainNav.classList.remove("open");
+
+              menuToggle.setAttribute(
+                "aria-expanded",
+                "false"
+              );
+
+              menuToggle.textContent = "☰";
+
+            }
+
+          }
+        );
+
+      }
+    );
+
+
+    /* =====================================================
+       SCROLL ACTIVE NAVIGATION
+       ===================================================== */
+
+    const sectionsForNav = [
+      "ahabanza",
+      "amasomo",
+      "kuzirikana",
+      "isengesho",
+      "isomero",
+      "amafoto",
+      "twandikire",
+      "inkunga"
+    ];
+
+
+    function updateActiveOnScroll() {
+
+      const scrollPosition =
+        window.scrollY +
+        130;
+
+      let currentSection =
+        "ahabanza";
+
+
+      sectionsForNav.forEach(
+        function (sectionId) {
+
+          const section =
+            document.getElementById(sectionId);
+
+          if (!section) {
+            return;
+          }
+
+          if (
+            section.offsetTop <=
+            scrollPosition
+          ) {
+
+            currentSection =
+              sectionId;
+
+          }
+
+        }
+      );
+
+
+      setActiveNav(currentSection);
+
+    }
+
+
+    window.addEventListener(
+      "scroll",
+      updateActiveOnScroll,
+      {
+        passive: true
+      }
+    );
+
+
+    updateActiveOnScroll();
+
+
+    /* =====================================================
+       LOAD DAILY READINGS
+       ===================================================== */
+
+    async function loadReadings() {
+
+      const container =
+        document.getElementById(
+          "readingsContainer"
+        );
+
+      const date =
+        todayString();
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("daily_readings")
+          .select("*")
+          .eq("reading_date", date)
+          .eq("published", true)
+          .maybeSingle();
+
+
+      if (error) {
+
+        console.error(
+          "Reading error:",
+          error
+        );
+
+        container.innerHTML = `
+          <div class="empty-state">
+            Ntabwo amasomo y'uyu munsi yabonetse.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      if (!data) {
+
+        container.innerHTML = `
+          <div class="empty-state">
+            Amasomo y'uyu munsi ntarashyirwaho.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      container.innerHTML = `
+
+        <article class="card reading-card">
+
+          <h3>
+            Isomo rya mbere
+          </h3>
+
+          <p>
+            ${escapeHTML(data.first_reading)}
+          </p>
+
+        </article>
+
+
+        <article class="card reading-card">
+
+          <h3>
+            Zaburi
+          </h3>
+
+          <p>
+            ${escapeHTML(data.psalm)}
+          </p>
+
+        </article>
+
+
+        <article class="card reading-card">
+
+          <h3>
+            Ivanjili
+          </h3>
+
+          <p>
+            ${escapeHTML(data.gospel)}
+          </p>
+
+        </article>
+
+      `;
+
+    }
+
+
+    /* =====================================================
+       LOAD DAILY CONTENT
+       ===================================================== */
+
+    async function loadDailyContent() {
+
+      const container =
+        document.getElementById(
+          "dailyContentContainer"
+        );
+
+      const qaContainer =
+        document.getElementById(
+          "qaContainer"
+        );
+
+      const prayerContainer =
+        document.getElementById(
+          "prayerContainer"
+        );
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("daily_content")
+          .select("*")
+          .eq("content_date", todayString())
+          .eq("published", true)
+          .maybeSingle();
+
+
+      if (error) {
+
+        console.error(
+          "Daily content error:",
+          error
+        );
+
+        container.innerHTML = `
+          <div class="empty-state">
+            Ntabwo inyigisho z'uyu munsi zabonetse.
+          </div>
+        `;
+
+        qaContainer.innerHTML = `
+          <div class="empty-state">
+            Ikibazo n'igisubizo ntibiraboneka.
+          </div>
+        `;
+
+        prayerContainer.innerHTML = `
+          <p>
+            Isengesho ry'uyu munsi ntirirashyirwaho.
+          </p>
+        `;
+
+        return;
+
+      }
+
+
+      if (!data) {
+
+        container.innerHTML = `
+          <div class="empty-state">
+            Kuzirikana k'uyu munsi ntikurarashyirwaho.
+          </div>
+        `;
+
+        qaContainer.innerHTML = `
+          <div class="empty-state">
+            Ikibazo n'igisubizo ntibirashyirwaho.
+          </div>
+        `;
+
+        prayerContainer.innerHTML = `
+          <p>
+            Isengesho ry'uyu munsi ntirirashyirwaho.
+          </p>
+        `;
+
+        return;
+
+      }
+
+
+      container.innerHTML = `
+
+        <article class="content-card">
+
+          <h3>
+            Kuzirikana
+          </h3>
+
+          <p>
+            ${escapeHTML(data.reflection)}
+          </p>
+
+        </article>
+
+
+        <article class="content-card">
+
+          <h3>
+            Isomo ry'ingenzi
+          </h3>
+
+          <p>
+            ${escapeHTML(data.lesson)}
+          </p>
+
+        </article>
+
       `;
 
 
-  modal.classList.remove("hidden");
+      qaContainer.innerHTML = `
 
-}
+        <div class="question">
 
+          Ikibazo:
 
-document
-  .getElementById("privacyLink")
-  .addEventListener("click", e => {
+          <br>
 
-    e.preventDefault();
-    openLegal("privacy");
+          ${escapeHTML(data.question)}
 
-  });
+        </div>
 
 
-document
-  .getElementById("termsLink")
-  .addEventListener("click", e => {
+        <div class="answer">
 
-    e.preventDefault();
-    openLegal("terms");
+          <strong>Igisubizo:</strong>
 
-  });
+          <br><br>
 
+          ${escapeHTML(data.answer)}
 
-document
-  .getElementById("closeModal")
-  .addEventListener("click", () => {
+        </div>
 
-    modal.classList.add("hidden");
-
-  });
+      `;
 
 
-modal.addEventListener("click", e => {
+      prayerContainer.innerHTML = `
 
-  if (e.target === modal) {
-    modal.classList.add("hidden");
-  }
+        <h3>
+          Isengesho ry'uyu munsi
+        </h3>
 
-});
+        <p>
+          ${escapeHTML(data.prayer)}
+        </p>
 
+      `;
 
-/* =========================
-   START
-========================= */
-
-async function initializeWebsite() {
-
-  await Promise.all([
-    loadReadings(),
-    loadDailyContent(),
-    loadPhotos(),
-    loadLibrary(),
-    loadMedia(),
-    loadSupport()
-  ]);
-
-}
+    }
 
 
-initializeWebsite();
+    /* =====================================================
+       LOAD PHOTOS
+       ===================================================== */
 
-</script>
+    async function loadPhotos() {
+
+      const container =
+        document.getElementById(
+          "photosContainer"
+        );
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("photos")
+          .select("*")
+          .eq("published", true)
+          .order("created_at", {
+            ascending: false
+          });
+
+
+      if (error) {
+
+        console.error(
+          "Photos error:",
+          error
+        );
+
+        container.innerHTML = `
+          <div class="empty-state">
+            Amafoto ntashoboye gufunguka.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      if (!data || data.length === 0) {
+
+        container.innerHTML = `
+          <div class="empty-state">
+            Nta mafoto arashyirwaho.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      container.innerHTML =
+        data.map(
+          function (photo) {
+
+            return `
+
+              <article class="photo-card">
+
+                <img
+                  src="${escapeHTML(photo.image_url)}"
+                  alt="${escapeHTML(photo.title)}"
+                  loading="lazy"
+                >
+
+                <div class="photo-info">
+
+                  <h3>
+                    ${escapeHTML(photo.title)}
+                  </h3>
+
+                  <p>
+                    ${escapeHTML(
+                      photo.description || ""
+                    )}
+                  </p>
+
+                </div>
+
+              </article>
+
+            `;
+
+          }
+        ).join("");
+
+    }
+
+
+    /* =====================================================
+       LOAD LIBRARY
+       ===================================================== */
+
+    async function loadLibrary() {
+
+      const container =
+        document.getElementById(
+          "libraryContainer"
+        );
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("library_items")
+          .select("*")
+          .eq("published", true)
+          .order("created_at", {
+            ascending: false
+          });
+
+
+      if (error) {
+
+        console.error(
+          "Library error:",
+          error
+        );
+
+        container.innerHTML = `
+          <div class="empty-state">
+            Isomero ntirishoboye gufunguka.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      if (!data || data.length === 0) {
+
+        container.innerHTML = `
+          <div class="empty-state">
+            Nta bitabo cyangwa PDF birashyirwaho.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      container.innerHTML =
+        data.map(
+          function (item) {
+
+            return `
+
+              <article class="card library-card">
+
+                <div class="file-icon">
+                  PDF
+                </div>
+
+                <div>
+
+                  <h3>
+                    ${escapeHTML(item.title)}
+                  </h3>
+
+                  <p>
+                    ${escapeHTML(
+                      item.description || ""
+                    )}
+                  </p>
+
+                </div>
+
+                <div class="library-actions">
+
+                  <a
+                    href="${escapeHTML(item.file_url)}"
+                    target="_blank"
+                    rel="noopener"
+                    class="btn btn-primary"
+                  >
+                    Fungura / Soma
+                  </a>
+
+                </div>
+
+              </article>
+
+            `;
+
+          }
+        ).join("");
+
+    }
+
+
+    /* =====================================================
+       LOAD MEDIA LINKS
+       ===================================================== */
+
+    async function loadMedia() {
+
+      const container =
+        document.getElementById(
+          "mediaContainer"
+        );
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("media_links")
+          .select("*")
+          .eq("published", true)
+          .order("created_at", {
+            ascending: false
+          });
+
+
+      if (error) {
+
+        console.error(
+          "Media error:",
+          error
+        );
+
+        container.innerHTML = `
+          <div class="empty-state">
+            Links ntizashoboye gufunguka.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      if (!data || data.length === 0) {
+
+        container.innerHTML = `
+          <div class="empty-state">
+            Nta audio, video cyangwa links birashyirwaho.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      container.innerHTML =
+        data.map(
+          function (item) {
+
+            return `
+
+              <article class="card media-card">
+
+                <h3>
+                  ${escapeHTML(item.title)}
+                </h3>
+
+                <p>
+                  ${escapeHTML(
+                    item.description || ""
+                  )}
+                </p>
+
+                <br>
+
+                <div class="media-actions">
+
+                  <a
+                    href="${escapeHTML(item.url)}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-outline"
+                  >
+                    Fungura
+                  </a>
+
+                </div>
+
+              </article>
+
+            `;
+
+          }
+        ).join("");
+
+    }
+
+
+    /* =====================================================
+       LOAD SUPPORT
+       ===================================================== */
+
+    async function loadSupport() {
+
+      const container =
+        document.getElementById(
+          "supportContainer"
+        );
+
+
+      const {
+        data,
+        error
+      } =
+        await supabaseClient
+          .from("support_settings")
+          .select("*")
+          .eq("enabled", true)
+          .order("updated_at", {
+            ascending: false
+          })
+          .limit(1)
+          .maybeSingle();
+
+
+      if (error) {
+
+        console.error(
+          "Support error:",
+          error
+        );
+
+        container.innerHTML = `
+          <h3>
+            Dutere inkunga
+          </h3>
+
+          <p>
+            Amakuru y'inkunga ntashoboye kuboneka ubu.
+          </p>
+        `;
+
+        return;
+
+      }
+
+
+      if (!data) {
+
+        container.innerHTML = `
+          <h3>
+            Dutere inkunga
+          </h3>
+
+          <p>
+            Amakuru y'inkunga arategurwa.
+          </p>
+        `;
+
+        return;
+
+      }
+
+
+      const phone =
+        data.phone_number || "";
+
+
+      const phoneHTML =
+        phone
+          ? `
+            <a
+              href="tel:${escapeHTML(phone)}"
+              class="support-phone"
+            >
+              ${escapeHTML(phone)}
+            </a>
+          `
+          : "";
+
+
+      container.innerHTML = `
+
+        <h3>
+          ${escapeHTML(
+            data.title || "Dutere inkunga"
+          )}
+        </h3>
+
+        <p>
+          ${escapeHTML(
+            data.description || ""
+          )}
+        </p>
+
+        ${
+          data.provider
+            ? `
+              <p>
+                <strong>
+                  ${escapeHTML(data.provider)}
+                </strong>
+              </p>
+            `
+            : ""
+        }
+
+        ${phoneHTML}
+
+        ${
+          data.ussd_code
+            ? `
+              <p>
+                Code:
+                <strong>
+                  ${escapeHTML(data.ussd_code)}
+                </strong>
+              </p>
+            `
+            : ""
+        }
+
+        ${
+          data.account_name
+            ? `
+              <p>
+                Konti:
+                <strong>
+                  ${escapeHTML(data.account_name)}
+                </strong>
+              </p>
+            `
+            : ""
+        }
+
+        ${
+          data.instructions
+            ? `
+              <p class="support-instructions">
+                ${escapeHTML(data.instructions)}
+              </p>
+            `
+            : ""
+        }
+
+      `;
+
+    }
+
+
+    /* =====================================================
+       CONTACT FORM
+       ===================================================== */
+
+    const contactForm =
+      document.getElementById(
+        "contactForm"
+      );
+
+
+    contactForm.addEventListener(
+      "submit",
+      async function (event) {
+
+        event.preventDefault();
+
+
+        const success =
+          document.getElementById(
+            "contactSuccess"
+          );
+
+        const errorBox =
+          document.getElementById(
+            "contactError"
+          );
+
+
+        success.style.display = "none";
+        errorBox.style.display = "none";
+
+
+        const name =
+          document.getElementById(
+            "contactName"
+          ).value.trim();
+
+
+        const email =
+          document.getElementById(
+            "contactEmail"
+          ).value.trim();
+
+
+        const phone =
+          document.getElementById(
+            "contactPhone"
+          ).value.trim();
+
+
+        const message =
+          document.getElementById(
+            "contactMessage"
+          ).value.trim();
+
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from("contact_messages")
+            .insert([
+              {
+                name: name,
+                email: email || null,
+                phone: phone || null,
+                message: message
+              }
+            ]);
+
+
+        if (error) {
+
+          console.error(
+            "Contact error:",
+            error
+          );
+
+          errorBox.style.display =
+            "block";
+
+          return;
+
+        }
+
+
+        success.style.display =
+          "block";
+
+        contactForm.reset();
+
+      }
+    );
+
+
+    /* =====================================================
+       PRIVACY / TERMS
+       ===================================================== */
+
+    const legalModal =
+      document.getElementById(
+        "legalModal"
+      );
+
+    const legalTitle =
+      document.getElementById(
+        "legalTitle"
+      );
+
+    const legalBody =
+      document.getElementById(
+        "legalBody"
+      );
+
+
+    function openLegal(type) {
+
+      if (type === "privacy") {
+
+        legalTitle.textContent =
+          "Privacy Policy";
+
+
+        legalBody.innerHTML = `
+
+          <p>
+            Kiliziya Yacu Nziza yubaha ubuzima
+            bwite bw'abasura uru rubuga.
+          </p>
+
+          <br>
+
+          <p>
+            Amakuru utanga, urugero nk'amazina,
+            email, telefoni n'ubutumwa,
+            akoreshwa gusa mu rwego rwo kwakira
+            no gusubiza ubutumwa bwawe.
+          </p>
+
+          <br>
+
+          <p>
+            Ntabwo tugamije kugurisha cyangwa
+            gukwirakwiza amakuru yawe ku bandi.
+          </p>
+
+        `;
+
+      }
+
+
+      if (type === "terms") {
+
+        legalTitle.textContent =
+          "Terms & Conditions";
+
+
+        legalBody.innerHTML = `
+
+          <p>
+            Ukoresheje Kiliziya Yacu Nziza,
+            wemera gukoresha uru rubuga mu buryo
+            bwubaha amategeko n'indangagaciro
+            za Kiliziya.
+          </p>
+
+          <br>
+
+          <p>
+            Ibitekerezo n'inyigisho biri kuri uru
+            rubuga bigamije gufasha abantu
+            kuzirikana no gukomeza ukwemera.
+          </p>
+
+        `;
+
+      }
+
+
+      legalModal.classList.add("show");
+
+      legalModal.setAttribute(
+        "aria-hidden",
+        "false"
+      );
+
+    }
+
+
+    function closeLegal() {
+
+      legalModal.classList.remove("show");
+
+      legalModal.setAttribute(
+        "aria-hidden",
+        "true"
+      );
+
+    }
+
+
+    legalModal.addEventListener(
+      "click",
+      function (event) {
+
+        if (
+          event.target === legalModal
+        ) {
+
+          closeLegal();
+
+        }
+
+      }
+    );
+
+
+    document.addEventListener(
+      "keydown",
+      function (event) {
+
+        if (event.key === "Escape") {
+
+          closeLegal();
+
+        }
+
+      }
+    );
+
+
+    /* =====================================================
+       INITIALIZE WEBSITE
+       ===================================================== */
+
+    async function initializeWebsite() {
+
+      await Promise.all([
+        loadReadings(),
+        loadDailyContent(),
+        loadPhotos(),
+        loadLibrary(),
+        loadMedia(),
+        loadSupport()
+      ]);
+
+    }
+
+
+    initializeWebsite();
+
+  </script>
 
 </body>
 </html>
