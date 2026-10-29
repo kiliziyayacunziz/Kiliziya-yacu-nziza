@@ -477,6 +477,11 @@
             <span>Messages</span>
             <strong id="statMessages">0</strong>
           </div>
+
+          <div class="stat-card">
+            <span>Ibibazo</span>
+            <strong id="statQuiz">0</strong>
+          </div>
         </div>
 
         <div class="panel">
@@ -599,14 +604,113 @@
         </div>
       </section>
 
-      <!-- QUESTIONS -->
+      <!-- QUESTIONS / QUIZ -->
       <section id="questions" class="section">
         <div class="panel">
-          <h2>❓ Ikibazo n'Igisubizo</h2>
-          <p>
-            Ibibazo n'ibisubizo bya buri munsi bishobora gucungwa
-            muri <strong>Kuzirikana</strong>.
+          <h2>🧠 Ibibazo & Quiz</h2>
+          <p style="margin-bottom:18px;color:#687386;">
+            Hano niho ukora ibibazo by'ubumenyi bya website: Multiple Choice,
+            True / False cyangwa Short Answer.
           </p>
+
+          <form id="quizForm">
+            <input type="hidden" id="quizId">
+
+            <div class="field">
+              <label>Ikibazo</label>
+              <textarea id="quizQuestion" required placeholder="Andika ikibazo hano..."></textarea>
+            </div>
+
+            <div class="grid-2">
+              <div class="field">
+                <label>Ubwoko bw'ikibazo</label>
+                <select id="quizType" required>
+                  <option value="multiple_choice">Multiple Choice</option>
+                  <option value="true_false">True / False</option>
+                  <option value="short_answer">Short Answer</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Category</label>
+                <input type="text" id="quizCategory" value="Bibiliya" placeholder="Bibiliya, Kiliziya, Abatagatifu...">
+              </div>
+            </div>
+
+            <div id="multipleChoiceFields">
+              <div class="grid-2">
+                <div class="field">
+                  <label>Option A</label>
+                  <input type="text" id="quizOptionA" placeholder="Igisubizo A">
+                </div>
+                <div class="field">
+                  <label>Option B</label>
+                  <input type="text" id="quizOptionB" placeholder="Igisubizo B">
+                </div>
+                <div class="field">
+                  <label>Option C</label>
+                  <input type="text" id="quizOptionC" placeholder="Igisubizo C">
+                </div>
+                <div class="field">
+                  <label>Option D</label>
+                  <input type="text" id="quizOptionD" placeholder="Igisubizo D">
+                </div>
+              </div>
+
+              <div class="field">
+                <label>Igisubizo nyacyo</label>
+                <select id="quizCorrectChoice">
+                  <option value="">-- Hitamo igisubizo --</option>
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="trueFalseFields" class="hidden">
+              <div class="field">
+                <label>Igisubizo nyacyo</label>
+                <select id="quizTrueFalseAnswer">
+                  <option value="">-- Hitamo --</option>
+                  <option value="True">Ni ukuri</option>
+                  <option value="False">Si ukuri</option>
+                </select>
+              </div>
+            </div>
+
+            <div id="shortAnswerFields" class="hidden">
+              <div class="field">
+                <label>Igisubizo nyacyo</label>
+                <input type="text" id="quizShortAnswer" placeholder="Andika igisubizo nyacyo">
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Explanation / Ibisobanuro</label>
+              <textarea id="quizExplanation" placeholder="Sobanura impamvu igisubizo ari cyo..."></textarea>
+            </div>
+
+            <label>
+              <input type="checkbox" id="quizPublished" checked>
+              Tangaza kuri website
+            </label>
+
+            <br><br>
+
+            <div class="actions">
+              <button class="btn btn-primary" type="submit">Bika Ikibazo</button>
+              <button type="button" class="btn btn-secondary" onclick="resetQuizForm()">Sukura</button>
+            </div>
+          </form>
+
+          <div id="quizMessage" class="message"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Ibibazo biri muri system</h2>
+          <div id="quizList"></div>
         </div>
       </section>
 
@@ -768,8 +872,8 @@
               </div>
 
               <div class="field">
-                <label>USSD / Code</label>
-                <input type="text" id="supportCode">
+                <label>Merchant Code / USSD Code</label>
+                <input type="text" id="supportCode" placeholder="Merchant Code cyangwa USSD Code">
               </div>
 
               <div class="field">
@@ -1272,6 +1376,324 @@ function resetContent() {
   document.getElementById("contentForm").reset();
   document.getElementById("contentId").value = "";
 }
+
+/* =========================
+   QUIZ / QUESTIONS
+========================= */
+
+const quizTypeEl = document.getElementById("quizType");
+
+quizTypeEl.addEventListener("change", updateQuizTypeFields);
+
+function updateQuizTypeFields() {
+  const type = quizTypeEl.value;
+
+  document.getElementById("multipleChoiceFields")
+    .classList.toggle("hidden", type !== "multiple_choice");
+
+  document.getElementById("trueFalseFields")
+    .classList.toggle("hidden", type !== "true_false");
+
+  document.getElementById("shortAnswerFields")
+    .classList.toggle("hidden", type !== "short_answer");
+}
+
+document.getElementById("quizForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const id = document.getElementById("quizId").value;
+  const type = document.getElementById("quizType").value;
+
+  let correctAnswer = "";
+
+  if (type === "multiple_choice") {
+    correctAnswer = document.getElementById("quizCorrectChoice").value;
+
+    if (
+      !document.getElementById("quizOptionA").value.trim() ||
+      !document.getElementById("quizOptionB").value.trim() ||
+      !document.getElementById("quizOptionC").value.trim() ||
+      !document.getElementById("quizOptionD").value.trim()
+    ) {
+      showMessage(
+        "quizMessage",
+        "Kuri Multiple Choice, Option A, B, C na D byose birakenewe.",
+        "error"
+      );
+      return;
+    }
+
+    if (!correctAnswer) {
+      showMessage("quizMessage", "Hitamo igisubizo nyacyo.", "error");
+      return;
+    }
+  }
+
+  if (type === "true_false") {
+    correctAnswer = document.getElementById("quizTrueFalseAnswer").value;
+
+    if (!correctAnswer) {
+      showMessage(
+        "quizMessage",
+        "Hitamo niba igisubizo ari ukuri cyangwa si ukuri.",
+        "error"
+      );
+      return;
+    }
+  }
+
+  if (type === "short_answer") {
+    correctAnswer = document.getElementById("quizShortAnswer").value.trim();
+
+    if (!correctAnswer) {
+      showMessage("quizMessage", "Andika igisubizo nyacyo.", "error");
+      return;
+    }
+  }
+
+  const payload = {
+    question: document.getElementById("quizQuestion").value.trim(),
+    question_type: type,
+    option_a:
+      type === "multiple_choice"
+        ? document.getElementById("quizOptionA").value.trim()
+        : null,
+    option_b:
+      type === "multiple_choice"
+        ? document.getElementById("quizOptionB").value.trim()
+        : null,
+    option_c:
+      type === "multiple_choice"
+        ? document.getElementById("quizOptionC").value.trim()
+        : null,
+    option_d:
+      type === "multiple_choice"
+        ? document.getElementById("quizOptionD").value.trim()
+        : null,
+    correct_answer: correctAnswer,
+    explanation: document.getElementById("quizExplanation").value.trim(),
+    category:
+      document.getElementById("quizCategory").value.trim() || "Bibiliya",
+    published: document.getElementById("quizPublished").checked,
+    updated_at: new Date().toISOString()
+  };
+
+  if (!payload.question) {
+    showMessage("quizMessage", "Andika ikibazo.", "error");
+    return;
+  }
+
+  let result;
+
+  if (id) {
+    result = await supabaseClient
+      .from("quiz_questions")
+      .update(payload)
+      .eq("id", id);
+  } else {
+    result = await supabaseClient
+      .from("quiz_questions")
+      .insert(payload);
+  }
+
+  if (result.error) {
+    showMessage("quizMessage", result.error.message, "error");
+    return;
+  }
+
+  showMessage(
+    "quizMessage",
+    id ? "Ikibazo cyahinduwe neza." : "Ikibazo cyabitswe neza."
+  );
+
+  resetQuizForm();
+  loadQuizQuestions();
+});
+
+async function loadQuizQuestions() {
+  const { data, error } = await supabaseClient
+    .from("quiz_questions")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    document.getElementById("quizList").innerHTML =
+      `<p>${escapeHtml(error.message)}</p>`;
+    return;
+  }
+
+  document.getElementById("statQuiz").textContent = data.length;
+
+  if (!data.length) {
+    document.getElementById("quizList").innerHTML =
+      "<p>Nta kibazo kirabikwa.</p>";
+    return;
+  }
+
+  document.getElementById("quizList").innerHTML = `
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Ikibazo</th>
+            <th>Ubwoko</th>
+            <th>Category</th>
+            <th>Igisubizo</th>
+            <th>Published</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          ${data.map(row => `
+            <tr>
+              <td>${escapeHtml(shortText(row.question))}</td>
+              <td>${escapeHtml(formatQuizType(row.question_type))}</td>
+              <td>${escapeHtml(row.category || "")}</td>
+              <td>${escapeHtml(formatQuizAnswer(row))}</td>
+              <td>
+                <span class="badge ${row.published ? "badge-green" : "badge-gray"}">
+                  ${row.published ? "Yego" : "Oya"}
+                </span>
+              </td>
+              <td>
+                <div class="actions">
+                  <button
+                    class="btn btn-secondary"
+                    onclick='editQuizQuestion(${JSON.stringify(row)})'>
+                    Edit
+                  </button>
+                  <button
+                    class="btn btn-danger"
+                    onclick="deleteQuizQuestion('${row.id}')">
+                    Delete
+                  </button>
+                </div>
+              </td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function formatQuizType(type) {
+  if (type === "multiple_choice") return "Multiple Choice";
+  if (type === "true_false") return "True / False";
+  if (type === "short_answer") return "Short Answer";
+  return type || "";
+}
+
+function formatQuizAnswer(row) {
+  if (row.question_type === "multiple_choice") {
+    const options = {
+      A: row.option_a,
+      B: row.option_b,
+      C: row.option_c,
+      D: row.option_d
+    };
+
+    return row.correct_answer
+      ? `${row.correct_answer}: ${options[row.correct_answer] || ""}`
+      : "";
+  }
+
+  if (row.question_type === "true_false") {
+    return row.correct_answer === "True"
+      ? "Ni ukuri"
+      : row.correct_answer === "False"
+        ? "Si ukuri"
+        : "";
+  }
+
+  return row.correct_answer || "";
+}
+
+function editQuizQuestion(row) {
+  document.getElementById("quizId").value = row.id || "";
+  document.getElementById("quizQuestion").value = row.question || "";
+  document.getElementById("quizType").value =
+    row.question_type || "multiple_choice";
+
+  document.getElementById("quizCategory").value =
+    row.category || "Bibiliya";
+
+  document.getElementById("quizOptionA").value = row.option_a || "";
+  document.getElementById("quizOptionB").value = row.option_b || "";
+  document.getElementById("quizOptionC").value = row.option_c || "";
+  document.getElementById("quizOptionD").value = row.option_d || "";
+
+  document.getElementById("quizCorrectChoice").value =
+    row.question_type === "multiple_choice"
+      ? row.correct_answer || ""
+      : "";
+
+  document.getElementById("quizTrueFalseAnswer").value =
+    row.question_type === "true_false"
+      ? row.correct_answer || ""
+      : "";
+
+  document.getElementById("quizShortAnswer").value =
+    row.question_type === "short_answer"
+      ? row.correct_answer || ""
+      : "";
+
+  document.getElementById("quizExplanation").value =
+    row.explanation || "";
+
+  document.getElementById("quizPublished").checked =
+    row.published !== false;
+
+  updateQuizTypeFields();
+
+  document.querySelectorAll(".nav-btn")
+    .forEach(x => x.classList.remove("active"));
+
+  const questionsBtn =
+    document.querySelector('.nav-btn[data-section="questions"]');
+
+  if (questionsBtn) {
+    questionsBtn.classList.add("active");
+
+    document.querySelectorAll(".section")
+      .forEach(section => section.classList.remove("active"));
+
+    document.getElementById("questions").classList.add("active");
+
+    document.getElementById("pageTitle").textContent =
+      "Ibibazo & Quiz";
+  }
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+async function deleteQuizQuestion(id) {
+  if (!confirm("Urashaka gusiba iki kibazo?")) return;
+
+  const { error } = await supabaseClient
+    .from("quiz_questions")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  loadQuizQuestions();
+}
+
+function resetQuizForm() {
+  document.getElementById("quizForm").reset();
+  document.getElementById("quizId").value = "";
+  document.getElementById("quizCategory").value = "Bibiliya";
+  document.getElementById("quizPublished").checked = true;
+  document.getElementById("quizType").value = "multiple_choice";
+  updateQuizTypeFields();
+}
+
+updateQuizTypeFields();
 
 /* =========================
    PHOTOS
@@ -1838,7 +2260,8 @@ async function loadAllData() {
     loadLibrary(),
     loadMedia(),
     loadSupport(),
-    loadContacts()
+    loadContacts(),
+    loadQuizQuestions()
   ]);
 
   loadLegal();
