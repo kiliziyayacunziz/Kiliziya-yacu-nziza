@@ -21,6 +21,21 @@
     .support-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
     .loading-box{text-align:center;padding:20px;color:#64748b}
     .empty-box{text-align:center;padding:24px;color:#64748b}
+
+    .site-search{margin:28px 0 10px}
+    .search-box{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+    .search-box input{flex:1;min-width:220px;padding:15px 16px;border:1px solid #cfd9e8;border-radius:12px;font-size:1rem;background:#fff;outline:none}
+    .search-box input:focus{border-color:#2b5da8;box-shadow:0 0 0 3px rgba(43,93,168,.12)}
+    .search-box .btn{border:0}
+    .search-hint{margin:9px 0 0;color:#64748b;font-size:.92rem}
+    .search-results{margin-top:18px;display:grid;gap:12px}
+    .search-result{padding:16px 18px;border:1px solid #dbe4f0;border-radius:14px;background:#fff}
+    .search-result h3{margin:4px 0 7px}
+    .search-result p{margin:0 0 10px;color:#64748b}
+    .search-result-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:5px}
+    .search-badge{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:#eef4ff;color:#2b5da8;font-size:.78rem;font-weight:700}
+    .search-empty{padding:22px;border:1px dashed #cbd5e1;border-radius:14px;text-align:center;color:#64748b;background:#fff}
+    .search-loading{padding:18px;text-align:center;color:#64748b}
   </style>
 </head>
 
@@ -40,6 +55,7 @@
     <nav id="mainNav">
       <a href="#ahabanza" class="nav-link active" data-section="ahabanza">Ahabanza</a>
       <a href="#amasomo" class="nav-link" data-section="amasomo">Amasomo</a>
+      <a href="#gushakisha" class="nav-link" data-section="gushakisha">Shakisha</a>
       <a href="#kuzirikana" class="nav-link" data-section="kuzirikana">Kuzirikana</a>
       <a href="#ikibazo" class="nav-link" data-section="ikibazo">Ikibazo</a>
       <a href="#isengesho" class="nav-link" data-section="isengesho">Isengesho</a>
@@ -80,6 +96,28 @@
       <strong id="todayDate">--</strong>
     </div>
   </div>
+
+
+  <section id="gushakisha" class="section section-soft">
+    <div class="container">
+      <div class="section-heading">
+        <span class="eyebrow">🔎 GUSHAKISHA</span>
+        <h2>Shakisha ibiri kuri Kiliziya Yacu Nziza</h2>
+        <p>Shakisha amasomo, kuzirikana, PDF, amafoto, audio/video cyangwa ibibazo bya Quiz.</p>
+      </div>
+
+      <div class="site-search card">
+        <form id="searchForm" class="search-box">
+          <input id="siteSearchInput" type="search"
+                 placeholder="Urugero: Yezu, amasengesho, Bibiliya, PDF..."
+                 autocomplete="off">
+          <button class="btn btn-primary" type="submit">🔎 Shakisha</button>
+        </form>
+        <p class="search-hint">Andika nibura inyuguti 2 kugira ngo dutangire gushakisha.</p>
+        <div id="searchResults" class="search-results" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
 
   <section id="amasomo" class="section">
     <div class="container">
@@ -495,6 +533,212 @@ function restartQuiz() {
   quizScore = 0;
   renderQuiz();
 }
+
+
+let searchTimer = null;
+
+function searchResultCard({badge, title, text, href, buttonLabel}) {
+  return `
+    <article class="search-result">
+      <div class="search-result-meta">
+        <span class="search-badge">${escapeHtml(badge)}</span>
+      </div>
+      <h3>${escapeHtml(title)}</h3>
+      ${text ? `<p>${escapeHtml(text)}</p>` : ""}
+      ${href ? `<a class="btn btn-secondary" href="${escapeHtml(href)}">${escapeHtml(buttonLabel || "Fungura")}</a>` : ""}
+    </article>
+  `;
+}
+
+async function performSiteSearch(rawQuery) {
+  const query = String(rawQuery || "").trim();
+  const resultsBox = $("searchResults");
+
+  if (!query) {
+    resultsBox.innerHTML = "";
+    return;
+  }
+
+  if (query.length < 2) {
+    resultsBox.innerHTML = `<div class="search-empty">Andika nibura inyuguti 2.</div>`;
+    return;
+  }
+
+  resultsBox.innerHTML = `<div class="search-loading">🔎 Turimo gushakisha...</div>`;
+
+  const pattern = `%${query}%`;
+
+  const [
+    readingsRes,
+    contentRes,
+    libraryRes,
+    photosRes,
+    mediaRes,
+    quizRes
+  ] = await Promise.all([
+    supabaseClient
+      .from("daily_readings")
+      .select("id, reading_date, first_reading, psalm, gospel")
+      .eq("published", true)
+      .or(`first_reading.ilike.${pattern},psalm.ilike.${pattern},gospel.ilike.${pattern}`)
+      .order("reading_date", { ascending: false })
+      .limit(8),
+
+    supabaseClient
+      .from("daily_content")
+      .select("id, content_date, reflection, lesson, question, answer, prayer")
+      .eq("published", true)
+      .or(`reflection.ilike.${pattern},lesson.ilike.${pattern},question.ilike.${pattern},answer.ilike.${pattern},prayer.ilike.${pattern}`)
+      .order("content_date", { ascending: false })
+      .limit(8),
+
+    supabaseClient
+      .from("library_items")
+      .select("id, title, description, file_url, file_type")
+      .eq("published", true)
+      .or(`title.ilike.${pattern},description.ilike.${pattern}`)
+      .order("created_at", { ascending: false })
+      .limit(8),
+
+    supabaseClient
+      .from("photos")
+      .select("id, title, description")
+      .eq("published", true)
+      .or(`title.ilike.${pattern},description.ilike.${pattern}`)
+      .order("created_at", { ascending: false })
+      .limit(8),
+
+    supabaseClient
+      .from("media_links")
+      .select("id, title, description, url, media_type")
+      .eq("published", true)
+      .or(`title.ilike.${pattern},description.ilike.${pattern},media_type.ilike.${pattern}`)
+      .order("created_at", { ascending: false })
+      .limit(8),
+
+    supabaseClient
+      .from("quiz_questions")
+      .select("id, question, category, question_type, explanation")
+      .eq("published", true)
+      .or(`question.ilike.${pattern},category.ilike.${pattern},explanation.ilike.${pattern}`)
+      .order("created_at", { ascending: false })
+      .limit(8)
+  ]);
+
+  const errors = [
+    readingsRes.error,
+    contentRes.error,
+    libraryRes.error,
+    photosRes.error,
+    mediaRes.error,
+    quizRes.error
+  ].filter(Boolean);
+
+  if (errors.length) {
+    console.error("Search errors:", errors);
+  }
+
+  const cards = [];
+
+  (readingsRes.data || []).forEach(item => {
+    const date = item.reading_date
+      ? new Intl.DateTimeFormat("rw-RW", { year: "numeric", month: "long", day: "numeric" }).format(new Date(`${item.reading_date}T00:00:00`))
+      : "";
+    cards.push(searchResultCard({
+      badge: "📖 Amasomo",
+      title: date || "Amasomo ya buri munsi",
+      text: [item.first_reading, item.psalm, item.gospel].filter(Boolean).join(" · "),
+      href: "#amasomo",
+      buttonLabel: "Jya ku masomo"
+    }));
+  });
+
+  (contentRes.data || []).forEach(item => {
+    cards.push(searchResultCard({
+      badge: "💡 Kuzirikana",
+      title: item.content_date || "Kuzirikana",
+      text: item.reflection || item.lesson || item.question || item.prayer || "",
+      href: "#kuzirikana",
+      buttonLabel: "Soma kuzirikana"
+    }));
+  });
+
+  (libraryRes.data || []).forEach(item => {
+    cards.push(searchResultCard({
+      badge: `📚 ${item.file_type || "PDF"}`,
+      title: item.title,
+      text: item.description || "",
+      href: item.file_url,
+      buttonLabel: "Fungura PDF"
+    }));
+  });
+
+  (photosRes.data || []).forEach(item => {
+    cards.push(searchResultCard({
+      badge: "📸 Ifoto",
+      title: item.title,
+      text: item.description || "",
+      href: "#amafoto",
+      buttonLabel: "Jya ku mafoto"
+    }));
+  });
+
+  (mediaRes.data || []).forEach(item => {
+    cards.push(searchResultCard({
+      badge: `🎧 ${item.media_type || "Media"}`,
+      title: item.title,
+      text: item.description || "",
+      href: item.url,
+      buttonLabel: "Fungura"
+    }));
+  });
+
+  (quizRes.data || []).forEach(item => {
+    cards.push(searchResultCard({
+      badge: `🧠 ${item.category || "Quiz"}`,
+      title: item.question,
+      text: item.explanation || "",
+      href: "#ikibazo",
+      buttonLabel: "Jya kuri Quiz"
+    }));
+  });
+
+  if (!cards.length) {
+    resultsBox.innerHTML = `
+      <div class="search-empty">
+        <strong>Nta kintu tubonye.</strong>
+        <p style="margin:8px 0 0">Gerageza andi magambo, urugero: <em>Yezu</em>, <em>Bibiliya</em>, <em>amasengesho</em> cyangwa <em>PDF</em>.</p>
+      </div>`;
+    return;
+  }
+
+  resultsBox.innerHTML = `
+    <div class="search-result-meta">
+      <span class="search-badge">${cards.length} ibisubizo</span>
+      <span style="color:#64748b">byabonetse kuri “${escapeHtml(query)}”</span>
+    </div>
+    ${cards.join("")}
+  `;
+}
+
+$("searchForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  performSiteSearch($("siteSearchInput").value);
+});
+
+$("siteSearchInput").addEventListener("input", () => {
+  clearTimeout(searchTimer);
+  const value = $("siteSearchInput").value.trim();
+
+  if (!value) {
+    $("searchResults").innerHTML = "";
+    return;
+  }
+
+  searchTimer = setTimeout(() => {
+    performSiteSearch(value);
+  }, 450);
+});
 
 async function loadLibrary() {
   const { data, error } = await supabaseClient
