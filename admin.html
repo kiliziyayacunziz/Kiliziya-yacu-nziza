@@ -1,547 +1,1885 @@
 <!DOCTYPE html>
 <html lang="rw">
-
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard — Kiliziya Yacu Nziza</title>
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <meta name="robots"
-          content="noindex, nofollow">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    <title>
-        Admin | Kiliziya Yacu Nziza
-    </title>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f7fb;
+      color: #172033;
+    }
 
-    <link rel="stylesheet"
-          href="style.css">
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    button {
+      cursor: pointer;
+    }
+
+    .login-screen {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #071a3d, #123d7a);
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 430px;
+      background: white;
+      padding: 35px;
+      border-radius: 18px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.2);
+    }
+
+    .login-box h1 {
+      color: #092452;
+      margin-bottom: 8px;
+    }
+
+    .login-box p {
+      color: #687386;
+      margin-bottom: 25px;
+    }
+
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 7px;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #d7dce5;
+      border-radius: 9px;
+      background: white;
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #1769aa;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 9px;
+      padding: 11px 16px;
+      font-weight: 700;
+    }
+
+    .btn-primary {
+      background: #0b4d91;
+      color: white;
+    }
+
+    .btn-success {
+      background: #198754;
+      color: white;
+    }
+
+    .btn-danger {
+      background: #dc3545;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #e9edf3;
+      color: #26344d;
+    }
+
+    .btn-full {
+      width: 100%;
+    }
+
+    .message {
+      padding: 11px 14px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      display: none;
+    }
+
+    .message.success {
+      display: block;
+      background: #dff5e8;
+      color: #146c43;
+    }
+
+    .message.error {
+      display: block;
+      background: #fde2e2;
+      color: #b42318;
+    }
+
+    .app {
+      display: none;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 260px;
+      background: #071a3d;
+      color: white;
+      overflow-y: auto;
+      z-index: 1000;
+    }
+
+    .brand {
+      padding: 25px 20px;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+
+    .brand h2 {
+      font-size: 20px;
+    }
+
+    .brand small {
+      color: #b8c8e5;
+    }
+
+    .menu {
+      padding: 15px 10px;
+    }
+
+    .menu button {
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      color: #dce7f8;
+      padding: 12px 14px;
+      border-radius: 8px;
+      margin-bottom: 3px;
+    }
+
+    .menu button:hover,
+    .menu button.active {
+      background: #123d7a;
+      color: white;
+    }
+
+    .main {
+      margin-left: 260px;
+      min-height: 100vh;
+    }
+
+    .topbar {
+      height: 72px;
+      background: white;
+      border-bottom: 1px solid #e2e6ec;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      position: sticky;
+      top: 0;
+      z-index: 500;
+    }
+
+    .topbar h1 {
+      font-size: 22px;
+    }
+
+    .content {
+      padding: 28px;
+      max-width: 1400px;
+      margin: auto;
+    }
+
+    .section {
+      display: none;
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-bottom: 25px;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: 14px;
+      padding: 22px;
+      border: 1px solid #e4e8ef;
+    }
+
+    .stat-card span {
+      color: #738096;
+      font-size: 14px;
+    }
+
+    .stat-card strong {
+      display: block;
+      font-size: 30px;
+      margin-top: 8px;
+      color: #092452;
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid #e2e6ec;
+      border-radius: 14px;
+      padding: 24px;
+      margin-bottom: 22px;
+    }
+
+    .panel h2 {
+      margin-bottom: 18px;
+      color: #092452;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 700px;
+    }
+
+    th,
+    td {
+      padding: 12px 10px;
+      border-bottom: 1px solid #e8ebf0;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f7f9fc;
+      color: #344054;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 9px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .badge-green {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .badge-gray {
+      background: #e5e7eb;
+      color: #374151;
+    }
+
+    .preview-image {
+      width: 100px;
+      height: 70px;
+      object-fit: cover;
+      border-radius: 7px;
+    }
+
+    .mobile-menu {
+      display: none;
+      background: #071a3d;
+      color: white;
+      border: none;
+      font-size: 22px;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 1000px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .sidebar {
+        transform: translateX(-100%);
+        transition: .25s;
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .main {
+        margin-left: 0;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+
+      .topbar {
+        padding: 0 15px;
+      }
+
+      .content {
+        padding: 15px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar h1 {
+        font-size: 17px;
+      }
+    }
+  </style>
 </head>
 
-
-<body class="admin-body">
-
-<div class="admin-page">
-
-    <header class="admin-topbar">
-
-        <strong>
-            ✝ Kiliziya Yacu Nziza — Admin
-        </strong>
-
-        <a href="index.html">
-            ← Subira ku rubuga
-        </a>
-
-    </header>
-
-
-    <main class="admin-main">
-
-        <!-- LOGIN -->
-
-        <section id="loginSection"
-                 class="login-card">
-
-            <h1>Admin Login</h1>
-
-            <p>
-                Injira ukoresheje konti ya Admin
-                yashyizwe muri Supabase.
-            </p>
-
-
-            <form id="loginForm">
-
-                <label>
-                    Email
-
-                    <input
-                        type="email"
-                        id="adminEmail"
-                        required
-                    >
-                </label>
-
-
-                <label>
-                    Password
-
-                    <input
-                        type="password"
-                        id="adminPassword"
-                        required
-                    >
-                </label>
-
-
-                <button
-                    type="submit"
-                    class="btn btn-primary"
-                >
-                    Injira
-                </button>
-
-
-                <p
-                    id="loginMessage"
-                    class="status-message"
-                ></p>
-
-            </form>
-
-        </section>
-
-
-        <!-- DASHBOARD -->
-
-        <section
-            id="adminDashboard"
-            class="admin-dashboard"
-        >
-
-            <div class="admin-welcome">
-
-                <div>
-
-                    <p class="section-kicker">
-                        ADMIN DASHBOARD
-                    </p>
-
-                    <h1>
-                        Murakaza neza
-                    </h1>
-
-                    <p id="loggedUser"></p>
-
-                </div>
-
-
-                <button
-                    id="logoutButton"
-                    class="logout-button"
-                >
-                    Sohoka
-                </button>
-
-            </div>
-
-
-            <!-- DAILY READINGS -->
-
-            <div class="admin-panel">
-
-                <h2>
-                    📖 Amasomo y'umunsi
-                </h2>
-
-
-                <form
-                    id="readingForm"
-                    class="admin-form"
-                >
-
-                    <label>
-                        Itariki
-
-                        <input
-                            type="date"
-                            id="reading_date"
-                            required
-                        >
-                    </label>
-
-
-                    <label>
-                        Isomo rya mbere
-
-                        <textarea
-                            id="first_reading"
-                            rows="4"
-                            required
-                        ></textarea>
-                    </label>
-
-
-                    <label>
-                        Zaburi
-
-                        <textarea
-                            id="reading_psalm"
-                            rows="4"
-                            required
-                        ></textarea>
-                    </label>
-
-
-                    <label>
-                        Ivanjili
-
-                        <textarea
-                            id="reading_gospel"
-                            rows="4"
-                            required
-                        ></textarea>
-                    </label>
-
-
-                    <button
-                        type="submit"
-                        class="btn btn-primary"
-                    >
-                        Bika amasomo
-                    </button>
-
-
-                    <p
-                        id="readingMessage"
-                        class="status-message"
-                    ></p>
-
-                </form>
-
-            </div>
-
-
-            <!-- FUTURE CONTENT -->
-
-            <div class="admin-panel">
-
-                <h2>
-                    Ibindi bizacungwa hano
-                </h2>
-
-                <p>
-                    Kuzirikana • Isengesho • Amafoto •
-                    PDF • Ibitabo • Audio/Video • Links
-                </p>
-
-            </div>
-
-        </section>
-
-    </main>
-
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen" class="login-screen">
+  <div class="login-box">
+    <h1>Admin Dashboard</h1>
+    <p>Kiliziya Yacu Nziza</p>
+
+    <div id="loginMessage" class="message"></div>
+
+    <form id="loginForm">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="email" required>
+      </div>
+
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="password" required>
+      </div>
+
+      <button class="btn btn-primary btn-full" type="submit">
+        Injira
+      </button>
+    </form>
+  </div>
 </div>
 
+<!-- APP -->
+<div id="app" class="app">
+
+  <aside id="sidebar" class="sidebar">
+    <div class="brand">
+      <h2>Kiliziya Yacu Nziza</h2>
+      <small>Admin Dashboard</small>
+    </div>
+
+    <div class="menu">
+      <button class="nav-btn active" data-section="dashboard">📊 Dashboard</button>
+      <button class="nav-btn" data-section="readings">📖 Amasomo</button>
+      <button class="nav-btn" data-section="reflection">💡 Kuzirikana</button>
+      <button class="nav-btn" data-section="questions">❓ Ikibazo n'Igisubizo</button>
+      <button class="nav-btn" data-section="prayer">🙏 Isengesho</button>
+      <button class="nav-btn" data-section="photos">📸 Amafoto</button>
+      <button class="nav-btn" data-section="library">📚 Isomero</button>
+      <button class="nav-btn" data-section="media">🎵 Audio / Video</button>
+      <button class="nav-btn" data-section="support">❤️ Dutere inkunga</button>
+      <button class="nav-btn" data-section="contacts">✉️ Twandikire</button>
+      <button class="nav-btn" data-section="links">🔗 Links</button>
+      <button class="nav-btn" data-section="legal">📜 Privacy & Terms</button>
+      <button class="nav-btn" data-section="manage">🛠️ Manage Content</button>
+
+      <button id="logoutBtn" class="nav-btn">🚪 Logout</button>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <header class="topbar">
+      <div>
+        <button id="mobileMenu" class="mobile-menu">☰</button>
+        <h1 id="pageTitle">Dashboard</h1>
+      </div>
+      <span id="adminEmail"></span>
+    </header>
+
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <section id="dashboard" class="section active">
+
+        <div class="cards">
+          <div class="stat-card">
+            <span>Amasomo</span>
+            <strong id="statReadings">0</strong>
+          </div>
+
+          <div class="stat-card">
+            <span>Daily Content</span>
+            <strong id="statContent">0</strong>
+          </div>
+
+          <div class="stat-card">
+            <span>Amafoto</span>
+            <strong id="statPhotos">0</strong>
+          </div>
+
+          <div class="stat-card">
+            <span>Messages</span>
+            <strong id="statMessages">0</strong>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Murakaza neza muri Admin Dashboard</h2>
+          <p>
+            Hano niho ucungira ibikubiye ku rubuga rwa
+            <strong>Kiliziya Yacu Nziza</strong>.
+          </p>
+        </div>
+
+      </section>
+
+      <!-- READINGS -->
+      <section id="readings" class="section">
+        <div class="panel">
+          <h2>📖 Amasomo ya buri munsi</h2>
+
+          <form id="readingForm">
+            <input type="hidden" id="readingId">
+
+            <div class="field">
+              <label>Itariki</label>
+              <input type="date" id="readingDate" required>
+            </div>
+
+            <div class="field">
+              <label>Isomo rya mbere</label>
+              <textarea id="firstReading" required></textarea>
+            </div>
+
+            <div class="field">
+              <label>Zaburi</label>
+              <textarea id="psalm"></textarea>
+            </div>
+
+            <div class="field">
+              <label>Ivanjili</label>
+              <textarea id="gospel" required></textarea>
+            </div>
+
+            <label>
+              <input type="checkbox" id="readingPublished" checked>
+              Tangaza
+            </label>
+
+            <br><br>
+
+            <button class="btn btn-primary">Bika Amasomo</button>
+            <button type="button" class="btn btn-secondary" onclick="resetReading()">
+              Sukura
+            </button>
+          </form>
+
+          <div id="readingMessage" class="message"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Amasomo ari muri system</h2>
+          <div id="readingsList"></div>
+        </div>
+      </section>
+
+      <!-- REFLECTION -->
+      <section id="reflection" class="section">
+        <div class="panel">
+          <h2>💡 Kuzirikana</h2>
+
+          <form id="contentForm">
+            <input type="hidden" id="contentId">
+
+            <div class="field">
+              <label>Itariki</label>
+              <input type="date" id="contentDate" required>
+            </div>
+
+            <div class="field">
+              <label>Kuzirikana</label>
+              <textarea id="reflectionText"></textarea>
+            </div>
+
+            <div class="field">
+              <label>Isomo / Inyigisho</label>
+              <textarea id="lessonText"></textarea>
+            </div>
+
+            <div class="field">
+              <label>Ikibazo</label>
+              <textarea id="questionText"></textarea>
+            </div>
+
+            <div class="field">
+              <label>Igisubizo</label>
+              <textarea id="answerText"></textarea>
+            </div>
+
+            <div class="field">
+              <label>Isengesho</label>
+              <textarea id="prayerText"></textarea>
+            </div>
+
+            <label>
+              <input type="checkbox" id="contentPublished" checked>
+              Tangaza
+            </label>
+
+            <br><br>
+
+            <button class="btn btn-primary">Bika Content</button>
+            <button type="button" class="btn btn-secondary" onclick="resetContent()">
+              Sukura
+            </button>
+          </form>
+
+          <div id="contentMessage" class="message"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Daily Content</h2>
+          <div id="contentList"></div>
+        </div>
+      </section>
+
+      <!-- QUESTIONS -->
+      <section id="questions" class="section">
+        <div class="panel">
+          <h2>❓ Ikibazo n'Igisubizo</h2>
+          <p>
+            Ibibazo n'ibisubizo bya buri munsi bishobora gucungwa
+            muri <strong>Kuzirikana</strong>.
+          </p>
+        </div>
+      </section>
+
+      <!-- PRAYER -->
+      <section id="prayer" class="section">
+        <div class="panel">
+          <h2>🙏 Isengesho</h2>
+          <p>
+            Amasengesho yinjizwa muri Daily Content kandi
+            agaragara ku rubuga.
+          </p>
+        </div>
+      </section>
+
+      <!-- PHOTOS -->
+      <section id="photos" class="section">
+        <div class="panel">
+          <h2>📸 Amafoto</h2>
+
+          <form id="photoForm">
+            <input type="hidden" id="photoId">
+
+            <div class="field">
+              <label>Umutwe w'ifoto</label>
+              <input type="text" id="photoTitle" required>
+            </div>
+
+            <div class="field">
+              <label>Ubusobanuro</label>
+              <textarea id="photoDescription"></textarea>
+            </div>
+
+            <div class="field">
+              <label>Hitamo ifoto</label>
+              <input type="file" id="photoFile" accept="image/*">
+            </div>
+
+            <label>
+              <input type="checkbox" id="photoPublished" checked>
+              Tangaza
+            </label>
+
+            <br><br>
+
+            <button class="btn btn-primary">Upload Ifoto</button>
+          </form>
+
+          <div id="photoMessage" class="message"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Amafoto ari kuri website</h2>
+          <div id="photosList"></div>
+        </div>
+      </section>
+
+      <!-- LIBRARY -->
+      <section id="library" class="section">
+        <div class="panel">
+          <h2>📚 Isomero</h2>
+
+          <form id="libraryForm">
+
+            <div class="field">
+              <label>Izina ry'igitabo / Document</label>
+              <input type="text" id="libraryTitle" required>
+            </div>
+
+            <div class="field">
+              <label>Ubusobanuro</label>
+              <textarea id="libraryDescription"></textarea>
+            </div>
+
+            <div class="field">
+              <label>PDF</label>
+              <input type="file" id="libraryFile" accept=".pdf,application/pdf" required>
+            </div>
+
+            <button class="btn btn-primary">Upload PDF</button>
+          </form>
+
+          <div id="libraryMessage" class="message"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Documents</h2>
+          <div id="libraryList"></div>
+        </div>
+      </section>
+
+      <!-- MEDIA -->
+      <section id="media" class="section">
+        <div class="panel">
+          <h2>🎵 Audio / Video / Links</h2>
+
+          <form id="mediaForm">
+            <div class="field">
+              <label>Umutwe</label>
+              <input type="text" id="mediaTitle" required>
+            </div>
+
+            <div class="field">
+              <label>Ubusobanuro</label>
+              <textarea id="mediaDescription"></textarea>
+            </div>
+
+            <div class="field">
+              <label>URL</label>
+              <input type="url" id="mediaUrl" required>
+            </div>
+
+            <div class="field">
+              <label>Ubwoko</label>
+              <select id="mediaType">
+                <option value="audio">Audio</option>
+                <option value="video">Video</option>
+                <option value="link">Link</option>
+              </select>
+            </div>
+
+            <button class="btn btn-primary">Bika</button>
+          </form>
+
+          <div id="mediaMessage" class="message"></div>
+        </div>
+
+        <div class="panel">
+          <div id="mediaList"></div>
+        </div>
+      </section>
+
+      <!-- SUPPORT -->
+      <section id="support" class="section">
+        <div class="panel">
+          <h2>❤️ Dutere Inkunga</h2>
+
+          <form id="supportForm">
+
+            <div class="field">
+              <label>Umutwe</label>
+              <input type="text" id="supportTitle">
+            </div>
+
+            <div class="field">
+              <label>Ubusobanuro</label>
+              <textarea id="supportDescription"></textarea>
+            </div>
+
+            <div class="grid-2">
+
+              <div class="field">
+                <label>Provider</label>
+                <input type="text" id="supportProvider" placeholder="MTN MoMo">
+              </div>
+
+              <div class="field">
+                <label>Numero ya telefone</label>
+                <input type="text" id="supportPhone">
+              </div>
+
+              <div class="field">
+                <label>USSD / Code</label>
+                <input type="text" id="supportCode">
+              </div>
+
+              <div class="field">
+                <label>Account Name</label>
+                <input type="text" id="supportAccount">
+              </div>
+
+            </div>
+
+            <div class="field">
+              <label>Amabwiriza yo gutera inkunga</label>
+              <textarea id="supportInstructions"></textarea>
+            </div>
+
+            <label>
+              <input type="checkbox" id="supportEnabled" checked>
+              Erekana Dutere Inkunga kuri website
+            </label>
+
+            <br><br>
+
+            <button class="btn btn-success">
+              Bika Support Information
+            </button>
+          </form>
+
+          <div id="supportMessage" class="message"></div>
+        </div>
+      </section>
+
+      <!-- CONTACTS -->
+      <section id="contacts" class="section">
+        <div class="panel">
+          <h2>✉️ Twandikire</h2>
+          <div id="contactsList"></div>
+        </div>
+      </section>
+
+      <!-- LINKS -->
+      <section id="links" class="section">
+        <div class="panel">
+          <h2>🔗 Links</h2>
+
+          <form id="linkForm">
+
+            <div class="field">
+              <label>Umutwe</label>
+              <input type="text" id="linkTitle" required>
+            </div>
+
+            <div class="field">
+              <label>URL</label>
+              <input type="url" id="linkUrl" required>
+            </div>
+
+            <div class="field">
+              <label>Ubusobanuro</label>
+              <textarea id="linkDescription"></textarea>
+            </div>
+
+            <button class="btn btn-primary">Bika Link</button>
+
+          </form>
+        </div>
+      </section>
+
+      <!-- LEGAL -->
+      <section id="legal" class="section">
+
+        <div class="panel">
+          <h2>🔒 Privacy Policy</h2>
+
+          <div class="field">
+            <textarea id="privacyText" rows="12"
+              placeholder="Andika Privacy Policy hano..."></textarea>
+          </div>
+
+          <button class="btn btn-primary" onclick="saveLocalLegal('privacy')">
+            Bika Privacy Policy
+          </button>
+        </div>
+
+        <div class="panel">
+          <h2>📜 Terms & Conditions</h2>
+
+          <div class="field">
+            <textarea id="termsText" rows="12"
+              placeholder="Andika Terms & Conditions hano..."></textarea>
+          </div>
+
+          <button class="btn btn-primary" onclick="saveLocalLegal('terms')">
+            Bika Terms
+          </button>
+        </div>
+
+      </section>
+
+      <!-- MANAGE -->
+      <section id="manage" class="section">
+
+        <div class="panel">
+          <h2>🛠️ Manage Content</h2>
+
+          <p>
+            Hano uzajya usiba cyangwa uhindura ibintu byashyizwe kuri website.
+          </p>
+
+          <br>
+
+          <div class="actions">
+            <button class="btn btn-secondary" onclick="loadAllData()">
+              🔄 Refresh Everything
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+</div>
 
 <script>
-
-const SUPABASE_URL =
-    "https://iqurlyrppouwcssctonu.supabase.co";
+const SUPABASE_URL = "https://iqurlyrppouwcssctonu.supabase.co";
 
 const SUPABASE_PUBLISHABLE_KEY =
-    "sb_publishable_QZVM-iXloVEDgc7fpwZhCQ_4bHRfp8d";
+  "sb_publishable_QZVM-iXloVEDgc7fpwZhCQ_4bHRfp8d";
 
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
 
-const client =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_PUBLISHABLE_KEY
-    );
+/* =========================
+   BASIC UI
+========================= */
 
+const loginScreen = document.getElementById("loginScreen");
+const app = document.getElementById("app");
 
-const loginSection =
-    document.getElementById("loginSection");
+function showMessage(id, text, type = "success") {
+  const el = document.getElementById(id);
+  if (!el) return;
 
-const dashboard =
-    document.getElementById("adminDashboard");
+  el.textContent = text;
+  el.className = "message " + type;
 
-const loggedUser =
-    document.getElementById("loggedUser");
-
-
-function showDashboard(user) {
-
-    loginSection.style.display = "none";
-
-    dashboard.style.display = "block";
-
-    loggedUser.textContent =
-        "Winjiye nka: " + user.email;
+  setTimeout(() => {
+    el.className = "message";
+  }, 5000);
 }
 
-
-function showLogin() {
-
-    dashboard.style.display = "none";
-
-    loginSection.style.display = "block";
-}
-
+/* =========================
+   AUTH
+========================= */
 
 async function checkSession() {
+  const { data } = await supabaseClient.auth.getSession();
 
-    const {
-        data: { session }
-    } =
-        await client.auth.getSession();
-
-
-    if (session && session.user) {
-
-        showDashboard(
-            session.user
-        );
-
-    } else {
-
-        showLogin();
-    }
+  if (data.session) {
+    showApp(data.session.user);
+  } else {
+    showLogin();
+  }
 }
 
+function showLogin() {
+  loginScreen.style.display = "flex";
+  app.style.display = "none";
+}
 
-document
-    .getElementById("loginForm")
-    .addEventListener(
-        "submit",
-        async event => {
-
-            event.preventDefault();
-
-
-            const email =
-                document
-                    .getElementById(
-                        "adminEmail"
-                    )
-                    .value
-                    .trim();
-
-
-            const password =
-                document
-                    .getElementById(
-                        "adminPassword"
-                    )
-                    .value;
-
-
-            const message =
-                document
-                    .getElementById(
-                        "loginMessage"
-                    );
-
-
-            message.textContent =
-                "Tegereza...";
-
-
-            const {
-                data,
-                error
-            } =
-                await client.auth
-                    .signInWithPassword({
-                        email,
-                        password
-                    });
-
-
-            if (error) {
-
-                message.textContent =
-                    "Login yanze: " +
-                    error.message;
-
-                return;
-            }
-
-
-            message.textContent = "";
-
-
-            showDashboard(
-                data.user
-            );
-        }
-    );
-
-
-document
-    .getElementById("logoutButton")
-    .addEventListener(
-        "click",
-        async () => {
-
-            await client.auth.signOut();
-
-            showLogin();
-        }
-    );
-
-
-document
-    .getElementById("readingForm")
-    .addEventListener(
-        "submit",
-        async event => {
-
-            event.preventDefault();
-
-
-            const message =
-                document
-                    .getElementById(
-                        "readingMessage"
-                    );
-
-
-            const reading_date =
-                document
-                    .getElementById(
-                        "reading_date"
-                    )
-                    .value;
-
-
-            const first_reading =
-                document
-                    .getElementById(
-                        "first_reading"
-                    )
-                    .value
-                    .trim();
-
-
-            const psalm =
-                document
-                    .getElementById(
-                        "reading_psalm"
-                    )
-                    .value
-                    .trim();
-
-
-            const gospel =
-                document
-                    .getElementById(
-                        "reading_gospel"
-                    )
-                    .value
-                    .trim();
-
-
-            message.textContent =
-                "Birimo kubikwa...";
-
-
-            const {
-                data: existing,
-                error: searchError
-            } =
-                await client
-                    .from("daily_readings")
-                    .select("id")
-                    .eq(
-                        "reading_date",
-                        reading_date
-                    )
-                    .limit(1);
-
-
-            if (searchError) {
-
-                message.textContent =
-                    "Habaye ikibazo: " +
-                    searchError.message;
-
-                return;
-            }
-
-
-            let result;
-
-
-            if (
-                existing &&
-                existing.length > 0
-            ) {
-
-                result =
-                    await client
-                        .from(
-                            "daily_readings"
-                        )
-                        .update({
-                            first_reading,
-                            psalm,
-                            gospel,
-                            published: true,
-                            updated_at:
-                                new Date()
-                                    .toISOString()
-                        })
-                        .eq(
-                            "id",
-                            existing[0].id
-                        );
-
-            } else {
-
-                result =
-                    await client
-                        .from(
-                            "daily_readings"
-                        )
-                        .insert({
-                            reading_date,
-                            first_reading,
-                            psalm,
-                            gospel,
-                            published: true
-                        });
-            }
-
-
-            if (result.error) {
-
-                message.textContent =
-                    "Ntibyabitswe: " +
-                    result.error.message;
-
-                return;
-            }
-
-
-            message.textContent =
-                "✓ Amasomo yabitswe neza!";
-
-
-            document
-                .getElementById(
-                    "readingForm"
-                )
-                .reset();
-        }
-    );
-
-
-client.auth.onAuthStateChange(
-    (event, session) => {
-
-        if (
-            session &&
-            session.user
-        ) {
-
-            showDashboard(
-                session.user
-            );
-
-        } else {
-
-            showLogin();
-        }
-    }
-);
-
+async function showApp(user) {
+  loginScreen.style.display = "none";
+  app.style.display = "block";
+
+  document.getElementById("adminEmail").textContent =
+    user.email || "";
+
+  await loadAllData();
+}
+
+document.getElementById("loginForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+  if (error) {
+    showMessage("loginMessage", error.message, "error");
+    return;
+  }
+
+  showApp(data.user);
+});
+
+document.getElementById("logoutBtn").addEventListener("click", async () => {
+  await supabaseClient.auth.signOut();
+  location.reload();
+});
+
+/* =========================
+   NAVIGATION
+========================= */
+
+document.querySelectorAll(".nav-btn[data-section]").forEach(btn => {
+  btn.addEventListener("click", () => {
+
+    document.querySelectorAll(".nav-btn")
+      .forEach(x => x.classList.remove("active"));
+
+    btn.classList.add("active");
+
+    document.querySelectorAll(".section")
+      .forEach(section => section.classList.remove("active"));
+
+    const target = document.getElementById(btn.dataset.section);
+
+    if (target) target.classList.add("active");
+
+    document.getElementById("pageTitle").textContent =
+      btn.textContent.replace(/[^\p{L}\p{N}\s&]/gu, "").trim();
+
+    document.getElementById("sidebar").classList.remove("open");
+  });
+});
+
+document.getElementById("mobileMenu").addEventListener("click", () => {
+  document.getElementById("sidebar").classList.toggle("open");
+});
+
+/* =========================
+   READINGS
+========================= */
+
+async function loadReadings() {
+
+  const { data, error } = await supabaseClient
+    .from("daily_readings")
+    .select("*")
+    .order("reading_date", { ascending: false });
+
+  if (error) {
+    document.getElementById("readingsList").innerHTML =
+      `<p>${escapeHtml(error.message)}</p>`;
+    return;
+  }
+
+  document.getElementById("statReadings").textContent =
+    data.length;
+
+  if (!data.length) {
+    document.getElementById("readingsList").innerHTML =
+      "<p>Nta masomo arabikwa.</p>";
+    return;
+  }
+
+  document.getElementById("readingsList").innerHTML = `
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Itariki</th>
+            <th>Isomo</th>
+            <th>Zaburi</th>
+            <th>Ivanjili</th>
+            <th>Published</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.map(row => `
+            <tr>
+              <td>${escapeHtml(row.reading_date || "")}</td>
+              <td>${escapeHtml(shortText(row.first_reading))}</td>
+              <td>${escapeHtml(shortText(row.psalm))}</td>
+              <td>${escapeHtml(shortText(row.gospel))}</td>
+              <td>${row.published ? "Yego" : "Oya"}</td>
+              <td>
+                <button class="btn btn-secondary"
+                  onclick='editReading(${JSON.stringify(row)})'>
+                  Edit
+                </button>
+                <button class="btn btn-danger"
+                  onclick="deleteReading('${row.id}')">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+document.getElementById("readingForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const id = document.getElementById("readingId").value;
+
+  const payload = {
+    reading_date: document.getElementById("readingDate").value,
+    first_reading: document.getElementById("firstReading").value,
+    psalm: document.getElementById("psalm").value,
+    gospel: document.getElementById("gospel").value,
+    published: document.getElementById("readingPublished").checked,
+    updated_at: new Date().toISOString()
+  };
+
+  let result;
+
+  if (id) {
+    result = await supabaseClient
+      .from("daily_readings")
+      .update(payload)
+      .eq("id", id);
+  } else {
+    result = await supabaseClient
+      .from("daily_readings")
+      .insert(payload);
+  }
+
+  if (result.error) {
+    showMessage("readingMessage", result.error.message, "error");
+    return;
+  }
+
+  showMessage("readingMessage", "Amasomo yabitswe neza.");
+  resetReading();
+  loadReadings();
+});
+
+function editReading(row) {
+  document.getElementById("readingId").value = row.id;
+  document.getElementById("readingDate").value = row.reading_date || "";
+  document.getElementById("firstReading").value = row.first_reading || "";
+  document.getElementById("psalm").value = row.psalm || "";
+  document.getElementById("gospel").value = row.gospel || "";
+  document.getElementById("readingPublished").checked = !!row.published;
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+async function deleteReading(id) {
+  if (!confirm("Urashaka gusiba iri somo?")) return;
+
+  const { error } = await supabaseClient
+    .from("daily_readings")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  loadReadings();
+}
+
+function resetReading() {
+  document.getElementById("readingForm").reset();
+  document.getElementById("readingId").value = "";
+  document.getElementById("readingPublished").checked = true;
+}
+
+/* =========================
+   DAILY CONTENT
+========================= */
+
+async function loadContent() {
+
+  const { data, error } = await supabaseClient
+    .from("daily_content")
+    .select("*")
+    .order("content_date", { ascending: false });
+
+  if (error) {
+    document.getElementById("contentList").innerHTML =
+      `<p>${escapeHtml(error.message)}</p>`;
+    return;
+  }
+
+  document.getElementById("statContent").textContent =
+    data.length;
+
+  document.getElementById("contentList").innerHTML =
+    data.length
+      ? `
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Itariki</th>
+            <th>Kuzirikana</th>
+            <th>Ikibazo</th>
+            <th>Isengesho</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.map(row => `
+            <tr>
+              <td>${escapeHtml(row.content_date)}</td>
+              <td>${escapeHtml(shortText(row.reflection))}</td>
+              <td>${escapeHtml(shortText(row.question))}</td>
+              <td>${escapeHtml(shortText(row.prayer))}</td>
+              <td>
+                <button class="btn btn-secondary"
+                  onclick='editContent(${JSON.stringify(row)})'>
+                  Edit
+                </button>
+                <button class="btn btn-danger"
+                  onclick="deleteContent('${row.id}')">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+      </div>
+      `
+      : "<p>Nta content irabikwa.</p>";
+}
+
+document.getElementById("contentForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const id = document.getElementById("contentId").value;
+
+  const payload = {
+    content_date: document.getElementById("contentDate").value,
+    reflection: document.getElementById("reflectionText").value,
+    lesson: document.getElementById("lessonText").value,
+    question: document.getElementById("questionText").value,
+    answer: document.getElementById("answerText").value,
+    prayer: document.getElementById("prayerText").value,
+    published: document.getElementById("contentPublished").checked,
+    updated_at: new Date().toISOString()
+  };
+
+  let result;
+
+  if (id) {
+    result = await supabaseClient
+      .from("daily_content")
+      .update(payload)
+      .eq("id", id);
+  } else {
+    result = await supabaseClient
+      .from("daily_content")
+      .insert(payload);
+  }
+
+  if (result.error) {
+    showMessage("contentMessage", result.error.message, "error");
+    return;
+  }
+
+  showMessage("contentMessage", "Content yabitswe neza.");
+  resetContent();
+  loadContent();
+});
+
+function editContent(row) {
+  document.getElementById("contentId").value = row.id;
+  document.getElementById("contentDate").value = row.content_date || "";
+  document.getElementById("reflectionText").value = row.reflection || "";
+  document.getElementById("lessonText").value = row.lesson || "";
+  document.getElementById("questionText").value = row.question || "";
+  document.getElementById("answerText").value = row.answer || "";
+  document.getElementById("prayerText").value = row.prayer || "";
+  document.getElementById("contentPublished").checked = !!row.published;
+}
+
+async function deleteContent(id) {
+  if (!confirm("Urashaka gusiba iyi content?")) return;
+
+  const { error } = await supabaseClient
+    .from("daily_content")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  loadContent();
+}
+
+function resetContent() {
+  document.getElementById("contentForm").reset();
+  document.getElementById("contentId").value = "";
+}
+
+/* =========================
+   PHOTOS
+========================= */
+
+document.getElementById("photoForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const file = document.getElementById("photoFile").files[0];
+
+  if (!file) {
+    showMessage("photoMessage", "Banza uhitemo ifoto.", "error");
+    return;
+  }
+
+  const safeName =
+    Date.now() + "-" +
+    file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
+
+  const path = "uploads/" + safeName;
+
+  const upload = await supabaseClient
+    .storage
+    .from("photos")
+    .upload(path, file);
+
+  if (upload.error) {
+    showMessage("photoMessage", upload.error.message, "error");
+    return;
+  }
+
+  const { data: publicData } =
+    supabaseClient.storage
+      .from("photos")
+      .getPublicUrl(path);
+
+  const { error } = await supabaseClient
+    .from("photos")
+    .insert({
+      title: document.getElementById("photoTitle").value,
+      description: document.getElementById("photoDescription").value,
+      image_url: publicData.publicUrl,
+      published: document.getElementById("photoPublished").checked
+    });
+
+  if (error) {
+    showMessage("photoMessage", error.message, "error");
+    return;
+  }
+
+  showMessage("photoMessage", "Ifoto yashyizwe kuri website.");
+  document.getElementById("photoForm").reset();
+
+  loadPhotos();
+});
+
+async function loadPhotos() {
+
+  const { data, error } = await supabaseClient
+    .from("photos")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    document.getElementById("photosList").innerHTML =
+      `<p>${escapeHtml(error.message)}</p>`;
+    return;
+  }
+
+  document.getElementById("statPhotos").textContent =
+    data.length;
+
+  document.getElementById("photosList").innerHTML =
+    data.length
+      ? `
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Photo</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.map(row => `
+            <tr>
+              <td>
+                <img class="preview-image"
+                  src="${escapeAttr(row.image_url)}"
+                  alt="">
+              </td>
+              <td>${escapeHtml(row.title)}</td>
+              <td>${escapeHtml(shortText(row.description))}</td>
+              <td>
+                <button class="btn btn-danger"
+                  onclick="deletePhoto('${row.id}')">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+      </div>
+      `
+      : "<p>Nta foto zirimo.</p>";
+}
+
+async function deletePhoto(id) {
+
+  if (!confirm("Urashaka gusiba iyi foto?")) return;
+
+  const { error } = await supabaseClient
+    .from("photos")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  loadPhotos();
+}
+
+/* =========================
+   LIBRARY
+========================= */
+
+document.getElementById("libraryForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const file = document.getElementById("libraryFile").files[0];
+
+  if (!file) return;
+
+  const safeName =
+    Date.now() + "-" +
+    file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
+
+  const path = "pdf/" + safeName;
+
+  const upload = await supabaseClient
+    .storage
+    .from("library")
+    .upload(path, file);
+
+  if (upload.error) {
+    showMessage("libraryMessage", upload.error.message, "error");
+    return;
+  }
+
+  const { data: publicData } =
+    supabaseClient.storage
+      .from("library")
+      .getPublicUrl(path);
+
+  const { error } = await supabaseClient
+    .from("library_items")
+    .insert({
+      title: document.getElementById("libraryTitle").value,
+      description: document.getElementById("libraryDescription").value,
+      file_url: publicData.publicUrl,
+      file_type: "PDF"
+    });
+
+  if (error) {
+    showMessage("libraryMessage", error.message, "error");
+    return;
+  }
+
+  showMessage("libraryMessage", "PDF yashyizwe muri Isomero.");
+  document.getElementById("libraryForm").reset();
+
+  loadLibrary();
+});
+
+async function loadLibrary() {
+
+  const { data, error } = await supabaseClient
+    .from("library_items")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    document.getElementById("libraryList").innerHTML =
+      `<p>${escapeHtml(error.message)}</p>`;
+    return;
+  }
+
+  document.getElementById("libraryList").innerHTML =
+    data.length
+      ? `
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>PDF</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.map(row => `
+            <tr>
+              <td>${escapeHtml(row.title)}</td>
+              <td>${escapeHtml(shortText(row.description))}</td>
+              <td>
+                <a href="${escapeAttr(row.file_url)}"
+                  target="_blank">
+                  Fungura PDF
+                </a>
+              </td>
+              <td>
+                <button class="btn btn-danger"
+                  onclick="deleteLibrary('${row.id}')">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+      </div>
+      `
+      : "<p>Nta bitabo birimo.</p>";
+}
+
+async function deleteLibrary(id) {
+
+  if (!confirm("Urashaka gusiba iyi PDF?")) return;
+
+  const { error } = await supabaseClient
+    .from("library_items")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  loadLibrary();
+}
+
+/* =========================
+   MEDIA
+========================= */
+
+document.getElementById("mediaForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const { error } = await supabaseClient
+    .from("media_links")
+    .insert({
+      title: document.getElementById("mediaTitle").value,
+      description: document.getElementById("mediaDescription").value,
+      url: document.getElementById("mediaUrl").value,
+      media_type: document.getElementById("mediaType").value,
+      published: true
+    });
+
+  if (error) {
+    showMessage("mediaMessage", error.message, "error");
+    return;
+  }
+
+  showMessage("mediaMessage", "Media yabitswe.");
+  document.getElementById("mediaForm").reset();
+
+  loadMedia();
+});
+
+async function loadMedia() {
+
+  const { data, error } = await supabaseClient
+    .from("media_links")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    document.getElementById("mediaList").innerHTML =
+      `<p>${escapeHtml(error.message)}</p>`;
+    return;
+  }
+
+  document.getElementById("mediaList").innerHTML =
+    data.length
+      ? data.map(row => `
+        <div class="panel">
+          <strong>${escapeHtml(row.title)}</strong>
+          <p>${escapeHtml(row.description || "")}</p>
+          <p>${escapeHtml(row.media_type)}</p>
+          <a href="${escapeAttr(row.url)}" target="_blank">
+            Fungura
+          </a>
+          <br><br>
+          <button class="btn btn-danger"
+            onclick="deleteMedia('${row.id}')">
+            Delete
+          </button>
+        </div>
+      `).join("")
+      : "<p>Nta media irimo.</p>";
+}
+
+async function deleteMedia(id) {
+
+  if (!confirm("Urashaka gusiba iyi media?")) return;
+
+  const { error } = await supabaseClient
+    .from("media_links")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  loadMedia();
+}
+
+/* =========================
+   SUPPORT
+========================= */
+
+async function loadSupport() {
+
+  const { data, error } = await supabaseClient
+    .from("support_settings")
+    .select("*")
+    .limit(1)
+    .maybeSingle();
+
+  if (error) {
+    showMessage("supportMessage", error.message, "error");
+    return;
+  }
+
+  if (!data) return;
+
+  document.getElementById("supportTitle").value =
+    data.title || "";
+
+  document.getElementById("supportDescription").value =
+    data.description || "";
+
+  document.getElementById("supportProvider").value =
+    data.provider || "";
+
+  document.getElementById("supportPhone").value =
+    data.phone_number || "";
+
+  document.getElementById("supportCode").value =
+    data.ussd_code || "";
+
+  document.getElementById("supportAccount").value =
+    data.account_name || "";
+
+  document.getElementById("supportInstructions").value =
+    data.instructions || "";
+
+  document.getElementById("supportEnabled").checked =
+    data.enabled !== false;
+}
+
+document.getElementById("supportForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const existing = await supabaseClient
+    .from("support_settings")
+    .select("id")
+    .limit(1)
+    .maybeSingle();
+
+  const payload = {
+    title: document.getElementById("supportTitle").value,
+    description: document.getElementById("supportDescription").value,
+    provider: document.getElementById("supportProvider").value,
+    phone_number: document.getElementById("supportPhone").value,
+    ussd_code: document.getElementById("supportCode").value,
+    account_name: document.getElementById("supportAccount").value,
+    instructions: document.getElementById("supportInstructions").value,
+    enabled: document.getElementById("supportEnabled").checked,
+    updated_at: new Date().toISOString()
+  };
+
+  let result;
+
+  if (existing.data?.id) {
+
+    result = await supabaseClient
+      .from("support_settings")
+      .update(payload)
+      .eq("id", existing.data.id);
+
+  } else {
+
+    result = await supabaseClient
+      .from("support_settings")
+      .insert(payload);
+
+  }
+
+  if (result.error) {
+    showMessage("supportMessage", result.error.message, "error");
+    return;
+  }
+
+  showMessage(
+    "supportMessage",
+    "Amakuru yo gutera inkunga yabitswe neza."
+  );
+});
+
+/* =========================
+   CONTACT MESSAGES
+========================= */
+
+async function loadContacts() {
+
+  const { data, error } = await supabaseClient
+    .from("contact_messages")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    document.getElementById("contactsList").innerHTML =
+      `<p>${escapeHtml(error.message)}</p>`;
+    return;
+  }
+
+  document.getElementById("statMessages").textContent =
+    data.length;
+
+  document.getElementById("contactsList").innerHTML =
+    data.length
+      ? `
+      <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Message</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.map(row => `
+            <tr>
+              <td>${escapeHtml(row.created_at?.slice(0,10) || "")}</td>
+              <td>${escapeHtml(row.name)}</td>
+              <td>${escapeHtml(row.email || "")}</td>
+              <td>${escapeHtml(row.phone || "")}</td>
+              <td>${escapeHtml(row.message)}</td>
+              <td>
+                <button class="btn btn-danger"
+                  onclick="deleteContact('${row.id}')">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          `).join("")}
+        </tbody>
+      </table>
+      </div>
+      `
+      : "<p>Nta message urabona.</p>";
+}
+
+async function deleteContact(id) {
+
+  if (!confirm("Urashaka gusiba iyi message?")) return;
+
+  const { error } = await supabaseClient
+    .from("contact_messages")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  loadContacts();
+}
+
+/* =========================
+   LINKS
+========================= */
+
+document.getElementById("linkForm").addEventListener("submit", async e => {
+  e.preventDefault();
+
+  const { error } = await supabaseClient
+    .from("media_links")
+    .insert({
+      title: document.getElementById("linkTitle").value,
+      description: document.getElementById("linkDescription").value,
+      url: document.getElementById("linkUrl").value,
+      media_type: "link",
+      published: true
+    });
+
+  if (error) {
+    alert(error.message);
+    return;
+  }
+
+  alert("Link yabitswe neza.");
+  document.getElementById("linkForm").reset();
+  loadMedia();
+});
+
+/* =========================
+   LEGAL
+========================= */
+
+function saveLocalLegal(type) {
+
+  const value =
+    type === "privacy"
+      ? document.getElementById("privacyText").value
+      : document.getElementById("termsText").value;
+
+  localStorage.setItem(
+    "kyz_" + type,
+    value
+  );
+
+  alert(
+    type === "privacy"
+      ? "Privacy Policy yabitswe kuri iyi browser."
+      : "Terms & Conditions zabitswe kuri iyi browser."
+  );
+}
+
+function loadLegal() {
+
+  document.getElementById("privacyText").value =
+    localStorage.getItem("kyz_privacy") || "";
+
+  document.getElementById("termsText").value =
+    localStorage.getItem("kyz_terms") || "";
+}
+
+/* =========================
+   LOAD EVERYTHING
+========================= */
+
+async function loadAllData() {
+
+  await Promise.all([
+    loadReadings(),
+    loadContent(),
+    loadPhotos(),
+    loadLibrary(),
+    loadMedia(),
+    loadSupport(),
+    loadContacts()
+  ]);
+
+  loadLegal();
+}
+
+/* =========================
+   HELPERS
+========================= */
+
+function shortText(value) {
+
+  if (!value) return "";
+
+  const text = String(value);
+
+  return text.length > 90
+    ? text.substring(0, 90) + "..."
+    : text;
+}
+
+function escapeHtml(value) {
+
+  if (value === null || value === undefined) return "";
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function escapeAttr(value) {
+  return escapeHtml(value);
+}
+
+/* =========================
+   START
+========================= */
 
 checkSession();
-
 </script>
 
 </body>
