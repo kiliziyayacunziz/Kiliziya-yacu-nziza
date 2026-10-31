@@ -36,6 +36,16 @@
     .search-badge{display:inline-flex;align-items:center;padding:5px 9px;border-radius:999px;background:#eef4ff;color:#2b5da8;font-size:.78rem;font-weight:700}
     .search-empty{padding:22px;border:1px dashed #cbd5e1;border-radius:14px;text-align:center;color:#64748b;background:#fff}
     .search-loading{padding:18px;text-align:center;color:#64748b}
+    .nav-search-link{display:inline-flex!important;align-items:center;gap:6px;background:#eef4ff;border:1px solid #c9d9f3;border-radius:999px;padding:8px 13px!important;color:#173b88!important;font-weight:800!important}
+    .nav-search-link:hover,.nav-search-link.active{background:#173b88;color:#fff!important;border-color:#173b88}
+    .donation-toggle{display:inline-flex;align-items:center;justify-content:center;margin-top:8px;border:0;background:#173b88;color:#fff;padding:13px 20px;border-radius:10px;font-weight:800;cursor:pointer;box-shadow:0 5px 14px rgba(18,49,111,.18)}
+    .donation-toggle:hover{background:#0d2d6d}
+    .donation-details[hidden]{display:none!important}
+    .donation-details{position:relative;animation:donationOpen .22s ease}
+    @keyframes donationOpen{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+    .donation-close{position:absolute;top:10px;right:10px;width:36px;height:36px;border:0;border-radius:50%;background:#edf2f8;color:#173b88;font-weight:800;font-size:18px;cursor:pointer}
+    .donation-close:hover{background:#dfe8f5}
+    .donation-details-inner{padding-top:18px;padding-right:38px}
   </style>
 </head>
 
@@ -68,7 +78,7 @@
     <nav id="mainNav">
       <a href="#ahabanza" class="nav-link active" data-section="ahabanza">Ahabanza</a>
       <a href="#amasomo" class="nav-link" data-section="amasomo">Amasomo</a>
-      <a href="#gushakisha" class="nav-link" data-section="gushakisha">Shakisha</a>
+      <a href="#gushakisha" class="nav-link nav-search-link" data-section="gushakisha">🔎 <span>Shakisha</span></a>
       <a href="#kuzirikana" class="nav-link" data-section="kuzirikana">Kuzirikana</a>
       <a href="#ikibazo" class="nav-link" data-section="ikibazo">Ikibazo</a>
       <a href="#isengesho" class="nav-link" data-section="isengesho">Isengesho</a>
@@ -267,7 +277,9 @@
         <p>Inkunga yawe ifasha gukomeza uru rubuga no gutegura ibikoresho bifasha abakristu.</p>
       </div>
 
-      <div id="supportBox" class="card">
+      <button id="openDonation" class="donation-toggle" type="button" aria-expanded="false" aria-controls="supportBox">❤️ Dutere Inkunga →</button>
+
+      <div id="supportBox" class="card donation-details" hidden>
         <div class="loading-box">Turimo kuzana amakuru y'inkunga...</div>
       </div>
     </div>
@@ -855,7 +867,9 @@ async function loadSupport() {
   }
 
   $("supportBox").innerHTML = `
-    <div class="support-row">
+    <button id="closeDonation" class="donation-close" type="button" aria-label="Funga amakuru y'inkunga">✕</button>
+    <div class="donation-details-inner">
+      <div class="support-row">
       <div>
         <span class="card-label">Provider</span>
         <h3>${escapeHtml(data.provider || "MTN MoMo")}</h3>
@@ -872,10 +886,17 @@ async function loadSupport() {
         <span class="card-label">Amazina ya konti</span>
         <h3>${escapeHtml(data.account_name || "—")}</h3>
       </div>
+      </div>
+      ${data.description ? `<p style="margin-top:20px">${escapeHtml(data.description)}</p>` : ""}
+      ${data.instructions ? `<div class="card" style="margin-top:16px"><strong>Uko watanga inkunga</strong><p>${escapeHtml(data.instructions)}</p></div>` : ""}
     </div>
-    ${data.description ? `<p style="margin-top:20px">${escapeHtml(data.description)}</p>` : ""}
-    ${data.instructions ? `<div class="card" style="margin-top:16px"><strong>Uko watanga inkunga</strong><p>${escapeHtml(data.instructions)}</p></div>` : ""}
   `;
+
+  $("closeDonation").addEventListener("click", () => {
+    $("supportBox").hidden = true;
+    $("openDonation").setAttribute("aria-expanded", "false");
+    $("openDonation").focus();
+  });
 }
 
 $("contactForm").addEventListener("submit", async (e) => {
@@ -953,6 +974,16 @@ function closeLegal() {
 
 $("legalModal").addEventListener("click", (e) => {
   if (e.target === $("legalModal")) closeLegal();
+});
+
+$("openDonation").addEventListener("click", () => {
+  const box = $("supportBox");
+  const isOpening = box.hidden;
+  box.hidden = !box.hidden;
+  $("openDonation").setAttribute("aria-expanded", String(isOpening));
+  if (isOpening) {
+    box.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 });
 
 async function loadAllData() {
